@@ -12,8 +12,8 @@
   --SmallFont: normal 400 0.8rem var(--font-inter);
   
   --minHeightScreen: 100vh;
-  --heightHeader: 5.9em;
-  --heightFooter: 4.25em;
+  --heightHeader: 3.5em;
+  --heightFooter: 4.3em;
   --minHeightMain: calc(var(--minHeightScreen) - var(--heightHeader) - var(--heightFooter));
 }
 
