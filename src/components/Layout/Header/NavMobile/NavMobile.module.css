@@ -1,0 +1,26 @@
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+    padding: 1em;
+    background-color: var(--white);
+    width: 100%;
+}
+
+.nav.fullscreen {
+    height: calc(var(--minHeightScreen) - var(--heightFooter));
+    overflow: hidden;
+}
+
+.head {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75em;
+}

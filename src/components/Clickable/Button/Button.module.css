@@ -1,0 +1,19 @@
+.button {
+    text-decoration: none;
+    padding: 0.5em 2em;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: var(--Main-red);
+
+    font: normal 500 0.9rem var(--font-inter);
+    color: var(--white);
+}
+
+.button:focus {
+    background-color: var(--Dark-orange);
+}
+
+.button:disabled {
+    background-color: var(--Grey-light);
+    color: var(--Grey-dark);
+}

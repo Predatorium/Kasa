@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.desktop {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.mobile {
+    display: flex;
+    width: 100%;
+    display: none;
+}
+
+/* Petites tablettes / grands mobiles */
+@media (max-width: 768px) {
+    .desktop {
+        display: none;
+    }
+
+    .mobile {
+        display: initial;
+    }
+}

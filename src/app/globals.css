@@ -9,7 +9,8 @@
   --white: #FFFFFF;
 
   --NormalFont: normal 400 1rem var(--font-inter);
-  --SmallFont: normal 400 0.8rem var(--font-inter);
+  --SmallFont: normal 400 0.9rem var(--font-inter);
+  --VerySmallFont: normal 400 0.8rem var(--font-inter);
   
   --minHeightScreen: 100vh;
   --heightHeader: 3.5em;

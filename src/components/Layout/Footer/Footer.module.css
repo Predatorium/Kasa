@@ -1,0 +1,15 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--heightFooter);
+    width: 100%;
+    padding: 0.5em 2.8%;
+    background-color: var(--white);
+}
+
+.footer .content {
+    font: normal 500 0.8rem var(--font-inter);
+    color: var(--Grey-dark);
+}

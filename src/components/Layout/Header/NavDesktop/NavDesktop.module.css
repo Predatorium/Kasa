@@ -1,0 +1,54 @@
+.nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 3em;
+
+    padding: 0.5em 6.25em;
+    width: fit-content;
+    height: var(--heightHeader);
+
+    background-color: var(--white);
+    border-radius: 10px;
+}
+
+.left {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5em;
+}
+
+.right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5em;
+}
+
+.icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.link {
+    all: unset;
+    cursor: pointer;
+    font: var(--SmallFont);
+    color: var(--Main-red);
+}
+
+.iconLink {
+    display: flex;
+    justify-content: center;
+}
+
+.separator {
+    border: none;
+    border-right: 1px solid var(--Main-red);
+    height: 5px;
+}

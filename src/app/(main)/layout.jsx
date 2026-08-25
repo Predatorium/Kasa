@@ -1,0 +1,13 @@
+import styles from "./layout.module.css"
+import Header from "@/components/Layout/Header"
+import Footer from "@/components/Layout/Footer"
+
+export default function Layout({children}) {
+    return (
+        <div className={styles.layout}>
+            <Header/>
+            {children}
+            <Footer/>
+        </div>
+    )
+}
