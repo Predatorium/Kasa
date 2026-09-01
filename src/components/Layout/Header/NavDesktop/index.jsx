@@ -17,7 +17,7 @@ export default function NavDesktop() {
             <div className={styles.right}>
                 <Link href="/property/add" className={styles.link}>+Ajouter un logement</Link>
                 <div className={styles.icons}>
-                    <Link href="/property/favorite" className={styles.iconLink}>
+                    <Link href="/property/favorites" className={styles.iconLink}>
                         <Image
                             src="/images/Favoris_red.svg"
                             alt="Favoris"

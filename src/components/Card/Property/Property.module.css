@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 22.2em;
     height: fit-content;
+    text-decoration: none;
 }
 
 .head {
