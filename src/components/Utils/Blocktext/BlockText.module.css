@@ -1,0 +1,23 @@
+.blockText {
+    display: flex;
+    flex-direction: column;
+    width: 17em;
+    height: 12.5em;
+    gap: 1em;
+
+    padding: 2.8em 1.4em;
+    border-radius: 10px;
+
+    background-color: var(--Dark-orange);
+    border: 1px solid var(--Grey-light);
+}
+
+.title {
+    font: normal 500 1.2em var(--font-inter);
+    color: var(--white);
+}
+
+.content {
+    font: var(--VerySmallFont);
+    color: var(--white);
+}

@@ -1,0 +1,60 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 22.2em;
+    height: fit-content;
+}
+
+.head {
+    position: relative;
+    width: 22.2em;
+    height: 23.5em;
+}
+
+.cover {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.favorite {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+}
+
+.infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 11em;
+
+    padding: 1em 1.5em 1.5em 1.5em;
+    border-radius: 0px 0px 10px 10px;
+
+    background-color: var(--white);
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.title {
+    font: normal 500 1.2rem var(--font-inter);
+    color: var(--Black);
+}
+
+.location {
+    font: var(--SmallFont);
+    color: var(--Grey-dark);
+}
+
+.rate {
+    font: var(--SmallFont);
+    color: var(--Grey-dark);
+}
+
+.price {
+    font: normal 500 0.9rem var(--font-inter);
+    color: var(--Black);
+}
