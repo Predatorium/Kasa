@@ -24,3 +24,15 @@
     flex-direction: column;
     gap: 1.75em;
 }
+
+.blackLink {
+    all: unset;
+    cursor: pointer;
+    font: var(--SmallFont);
+    color: var(--Black);
+    font-size: 1.5rem;
+}
+
+.blackLink:hover {
+    color: var(--Main-red);
+}

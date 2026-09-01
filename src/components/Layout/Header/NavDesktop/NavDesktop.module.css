@@ -35,6 +35,17 @@
     gap: 0.5em;
 }
 
+.blackLink {
+    all: unset;
+    cursor: pointer;
+    font: var(--SmallFont);
+    color: var(--Black);
+}
+
+.blackLink:hover {
+    color: var(--Main-red);
+}
+
 .link {
     all: unset;
     cursor: pointer;

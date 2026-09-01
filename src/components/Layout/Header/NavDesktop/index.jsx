@@ -1,6 +1,5 @@
 import { KasaLogo } from "@/components/Layout/Logo"
 import Image from "next/image";
-import KasaLink from "@/components/Clickable/Link"
 import Link from "next/link";
 import styles from "./NavDesktop.module.css"
 
@@ -9,8 +8,8 @@ export default function NavDesktop() {
     return (
         <nav className={styles.nav}>
             <div className={styles.left}>
-                <KasaLink link="/home">Accueil</KasaLink>
-                <KasaLink link="/about">À propos</KasaLink>
+                <Link href="/home" className={styles.blackLink}>Accueil</Link>
+                <Link href="/about" className={styles.blackLink}>À propos</Link>
             </div>
                 
             <KasaLogo />

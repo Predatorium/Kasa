@@ -1,12 +1,21 @@
 .button {
     text-decoration: none;
-    padding: 0.5em 2em;
+    padding: 0.5rem 2rem;
     border-radius: 10px;
     width: fit-content;
     background-color: var(--Main-red);
 
     font: normal 500 0.9rem var(--font-inter);
     color: var(--white);
+}
+
+.button.icon {
+    padding: 0.5rem 1rem;
+}
+
+.button.withoutText {
+    padding: 0.5rem;
+    height: 1rem;
 }
 
 .button:focus {

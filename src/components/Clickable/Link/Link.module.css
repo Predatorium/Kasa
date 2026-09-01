@@ -2,15 +2,9 @@
     all: unset;
     cursor: pointer;
     font: var(--SmallFont);
-    color: var(--Black);
-}
-
-.link:hover {
     color: var(--Main-red);
 }
 
-@media (max-width: 768px) {
-    .link {
-        font-size: 1.5rem;
-    }
+.link:hover {
+    text-decoration: underline;
 }
