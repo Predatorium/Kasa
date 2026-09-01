@@ -3,4 +3,5 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: var(--minHeightScreen);
+    gap: 2.5em;
 }

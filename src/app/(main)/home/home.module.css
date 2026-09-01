@@ -1,0 +1,110 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10%;
+    gap: 2.5em;
+}
+
+.head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 2.5em;
+}
+
+.head .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.title {
+    font: normal 700 2rem var(--font-inter);
+    color: var(--Main-red);
+    text-align: center;
+}
+
+.slogan {
+    font: var(--SmallFont);
+    text-align: center;
+}
+
+.homeCover {
+    position: relative;
+    width: 100%;
+    height: 28.7em;
+
+}
+
+.cover {
+    position: relative;
+    border-radius: 20px;
+}
+
+.properties {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5em;
+}
+
+.foot {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+    padding: 2.5em;
+    width: 100%;
+    border-radius: 10px;
+    background-color: var(--white);
+}
+
+.foot .top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.howUse {
+    font: normal 600 1.5rem var(--font-inter);
+    color: var(--Black);
+}
+
+.describ {
+    font: var(--SmallFont);
+}
+
+.explain {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+}
+
+@media (max-width: 768px) {
+    .home {
+        padding: 0 4%;
+        gap: 3.2em;
+    }
+
+    .explain {
+        gap: 0.5em;
+    }
+}
+
+@media (max-width: 496px) {
+    .head {
+        padding: 0 0.5em;
+    }
+
+    .title {
+        white-space: pre-line;
+    }
+}
