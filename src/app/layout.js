@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import AppProviders from "@/contexts/AppProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -9,19 +8,18 @@ const inter = Inter({
 
 export const metadata = {
   title: {
-    default: "Abricot",
-    template: "%s | Abricot",
+    default: "Kasa",
+    template: "%s | Kasa",
   },
   description: "...",
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="fr" className={`${inter.variable}`}>
       <body>
-        <AppProviders>
-          {children}
-        </AppProviders>
+        {children}
       </body>
     </html>
   );

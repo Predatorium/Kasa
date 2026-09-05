@@ -1,5 +1,6 @@
 "use server";
 import apiRequest from "@/api/client";
+import { cookies } from 'next/headers';
 
 export async function registerAction(body) {
   // body: { name (requis), email (requis), password (requis, min 6), picture?, role? }
@@ -23,4 +24,10 @@ export async function requestResetAction(body) {
 export async function resetPasswordAction(body) {
   // body: { token (requis), password (requis, min 6) }
   return apiRequest("POST", "/auth/reset-password", body);
+}
+
+export async function logoutAction() {
+  const cookieStore = await cookies();
+  cookieStore.delete('token');
+  cookieStore.delete('userId');
 }
