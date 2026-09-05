@@ -1,28 +1,32 @@
-import styles from "./layout.module.css"
-import Header from "@/components/Layout/Header"
-import Footer from "@/components/Layout/Footer"
-import PropertiesProvider from "@/contexts/PropertiesContext"
-import { getPropertiesAction } from "@/actions/propertiesActions"
+import { getFavoritesForUserAction } from "@/actions/favoritesActions"
+import { getUserByIdAction } from "@/actions/usersActions"
+import AppProviders from "@/contexts/AppProvider";
+import { cookies } from "next/headers";
 
-export default async function Layout({children}) {
-    let initialProperties = null;
+export default async function Layout({ children }) {
+    let initialFavorites = null;
+    let initialUser = null;
 
-    try {
-        const propertiesResult = await Promise.all([
-            getPropertiesAction(),
-        ]);
-        initialProperties = propertiesResult[0];
-    } catch (error) {
-        console.log('Error: ', error)
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token");
+    const userId = cookieStore.get("userId");
+
+    if (token && userId) {
+        try {
+            const [favoritesResult, userResult] = await Promise.all([
+                getFavoritesForUserAction(userId.value),
+                getUserByIdAction(userId.value)
+            ]);
+            initialFavorites = favoritesResult;
+            initialUser = userResult;
+        } catch (error) {
+            console.log('Error: ', error)
+        }
     }
 
     return (
-        <div className={styles.layout}>
-            <Header/>
-            <PropertiesProvider initialProperties={initialProperties}>
-                {children}
-            </PropertiesProvider>
-            <Footer/>
-        </div>
+        <AppProviders initialFavorites={initialFavorites ?? []} initialUser={initialUser ?? null}>
+            {children}
+        </AppProviders>
     )
 }

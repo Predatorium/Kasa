@@ -1,0 +1,22 @@
+.tag {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    background-color: var(--Grey-light);
+    width: fit-content;
+}
+
+.tag.fit {
+    padding: 0.5em 0;
+    width: 100%;
+    justify-content: center;
+}
+
+.text {
+    font: var(--VerySmallFont);
+    color: var(--Grey-dark);
+    text-align: center;
+}

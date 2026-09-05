@@ -51,6 +51,28 @@
     max-width: 22.5em;
 }
 
+.wrapperRole {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.labelRole {
+    font: var(--SmallFont);
+}
+
+.role {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.6rem;
+    border: 1px solid var(--Grey-light);
+    border-radius: 4px;
+    width: 100%;
+    font: var(--VerySmallFont);
+    color: var(--Grey-dark);
+}
+
 .actions {
     display: flex;
     flex-direction: column;

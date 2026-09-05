@@ -2,13 +2,18 @@
 
 import styles from "./home.module.css"
 import { useProperties } from "@/contexts/PropertiesContext"
+import { useFavorites } from "@/contexts/FavoritesContext"
 import PropertyCard from "@/components/Card/Property"
 import Image from "next/image"
 import BlockText from "@/components/Utils/Blocktext"
 
-export default function Home() {
+export default function HomeContent() {
     const { properties, loading, error } = useProperties();
+    const { favorites } = useFavorites();
     
+    const isFavorite = (propertyId) => 
+    favorites?.some((fav) => fav.id === propertyId); // ou `fav === propertyId` si favorites est un tableau d'ids
+
     return (
         <div className={styles.home}>
             <div className={styles.head}>
@@ -29,8 +34,8 @@ export default function Home() {
             <div className={styles.properties}>
                 {loading && <p>Chargement...</p>}
                 {error && <p>Erreur : {error}</p>}
-                {properties.map((property) => (
-                    <PropertyCard key={property.id} property={property} />
+                {properties?.map((property) => (
+                    <PropertyCard key={property.id} property={property} inFavorite={isFavorite(property.id)} />
                 ))}
             </div>
             <div className={styles.foot}>

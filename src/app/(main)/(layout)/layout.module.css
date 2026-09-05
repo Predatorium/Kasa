@@ -3,5 +3,12 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: var(--minHeightScreen);
+    padding-top: 2.5em;
     gap: 2.5em;
+}
+
+@media (max-width: 768px) {
+    .layout {
+        padding-top: 0;        
+    }
 }

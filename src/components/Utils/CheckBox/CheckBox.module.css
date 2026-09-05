@@ -1,0 +1,15 @@
+.checkBox {
+    display: flex;
+    flex-direction: row;
+    gap: 0.6em;
+}
+
+.check {
+    border: 1px solid var(--Grey-dark);
+    border-radius: 2px;
+}
+
+.label {
+    font: var(--VerySmallFont);
+    color: var(--Grey-dark);
+}

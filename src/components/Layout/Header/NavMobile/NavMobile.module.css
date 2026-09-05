@@ -36,3 +36,9 @@
 .blackLink:hover {
     color: var(--Main-red);
 }
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+}

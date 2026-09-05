@@ -1,14 +1,18 @@
 'use client'
 
 import { Logo } from "@/components/Layout/Logo"
-import { ButtonLink } from "@/components/Clickable/Button"
+import { ButtonLink, Button } from "@/components/Clickable/Button"
+import { logoutAction } from '@/actions/authActions';
+import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./NavMobile.module.css"
 
 export default function NavMobile() {
+    const { user, clearUser } = useAuth();
     const [openMenu, setOpenMenu] = useState(false);
     const pathname = usePathname();
     
@@ -17,6 +21,12 @@ export default function NavMobile() {
             setOpenMenu(false);
         }
     }, [pathname]);
+
+    const handleLogout = async () => {
+        await logoutAction();
+        clearUser();
+        redirect('/home');
+    };
 
     return (
         <nav className={`${styles.nav} ${openMenu ? styles.fullscreen : ''}`}>
@@ -45,7 +55,13 @@ export default function NavMobile() {
                 </div>
             }
             {openMenu &&
-                <ButtonLink link={"/property/add"} content={"Ajouter un logement"}/>
+                <div className={styles.actions}>
+                    {user?.role === "owner" || !user &&
+                        <ButtonLink link="/property/add" content="Ajouter un logement" />
+                    }
+                    <Button onClick={handleLogout} content={user ? "Se déconnecter" : "Se connecter"} />
+
+                </div>
             }
         </nav>
     )

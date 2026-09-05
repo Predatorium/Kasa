@@ -38,6 +38,13 @@ export default function RegisterPage() {
                     <InputLabel type='text' nameId='firstName' content='Prénom' />
                     <InputLabel type='email' nameId='email' content='Email' />
                     <InputLabel type='password' nameId='password' content='Mot de passe' />
+                    <div className={styles.wrapperRole}>
+                        <label htmlFor="role" className={styles.labelRole}>Role :</label>
+                        <select name="role" defaultValue="client" className={styles.role}>
+                            <option value="client">User</option>
+                            <option value="owner">Owner</option>
+                        </select>
+                    </div>
                 </div>
                 <div className={styles.actions}>
                     <Button content="S’inscrire" type="submit"/>

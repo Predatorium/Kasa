@@ -1,9 +1,22 @@
+'use client'
+
 import { KasaLogo } from "@/components/Layout/Logo"
+import { Button } from "@/components/Clickable/Button"
+import { logoutAction } from '@/actions/authActions';
+import { useAuth } from '@/contexts/AuthContext';
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./NavDesktop.module.css"
+import { redirect } from 'next/navigation';
 
 export default function NavDesktop() {
+    const { user, clearUser } = useAuth();
+
+    const handleLogout = async () => {
+        await logoutAction();
+        clearUser();
+        redirect('/home');
+    };
 
     return (
         <nav className={styles.nav}>
@@ -15,9 +28,11 @@ export default function NavDesktop() {
             <KasaLogo />
 
             <div className={styles.right}>
-                <Link href="/property/add" className={styles.link}>+Ajouter un logement</Link>
+                {(user?.role === "owner" || !user) &&
+                    <Link href="/property/add" className={styles.link}>+Ajouter un logement</Link>
+                }
                 <div className={styles.icons}>
-                    <Link href="/property/favorites" className={styles.iconLink}>
+                    <Link href="/property/favourites" className={styles.iconLink}>
                         <Image
                             src="/images/Favoris_red.svg"
                             alt="Favoris"
@@ -37,6 +52,7 @@ export default function NavDesktop() {
                         />
                     </Link>
                 </div>
+                <Button onClick={handleLogout} content={user ? "Se déconnecter" : "Se connecter"} />
             </div>
         </nav>
     )

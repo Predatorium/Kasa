@@ -1,4 +1,7 @@
 .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     padding: 0.5rem 2rem;
     border-radius: 10px;
@@ -7,6 +10,10 @@
 
     font: normal 500 0.9rem var(--font-inter);
     color: var(--white);
+}
+
+.button.fit {
+    width: 100%;
 }
 
 .button.icon {
@@ -18,7 +25,8 @@
     height: 1rem;
 }
 
-.button:focus {
+.button:focus, 
+.button:hover {
     background-color: var(--Dark-orange);
 }
 

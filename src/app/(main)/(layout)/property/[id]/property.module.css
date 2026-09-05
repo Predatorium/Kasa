@@ -1,0 +1,153 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10%;
+    gap: 1.5em;
+}
+
+.back {
+    padding: 1em 0.5em;
+}
+
+.button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--Grey-light);
+    border-radius: 10px;
+    width: fit-content;
+
+    font: normal 500 0.9rem var(--font-inter);
+    color: var(--Grey-dark);
+    text-decoration: none;
+}
+
+.propertyPage {
+    display: flex;
+    flex-direction: row;
+    gap: 0.6em;
+}
+
+.property {
+    display: flex;
+    flex-direction: column;
+    width: 66%;
+    gap: 1.5em;
+}
+
+.infos {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5em;
+    gap: 2.5em;
+    border: 1px solid var(--Grey-light);
+    border-radius: 10px;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.subtop {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.title {
+    font: normal 500 1.5rem var(--font-inter);
+}
+
+.location {
+    display: flex;
+    gap: 0.5rem;
+    font: var(--SmallFont);
+    color: var(--Grey-dark);
+}
+
+.description {
+    font: var(--SmallFont);
+}
+
+.equipments,
+.categories {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.title2 {
+    font: normal 500 0.9rem var(--font-inter);
+}
+
+.tags {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 20em;
+    gap: 0.5em;
+}
+
+.host {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5em;
+    gap: 0.5em;
+    border: 1px solid var(--Grey-light);
+    border-radius: 10px;
+    width: 33%;
+    height: fit-content;
+}
+
+.title3 {
+    font: normal 500 1rem var(--font-inter);
+}
+
+.hostInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.1em;
+    padding: 1em 0;
+    width: 100%;
+}
+
+.hostPicture {
+    border-radius: 10px;
+}
+
+.hostName {
+    font: var(--NormalFont);
+}
+
+.rate {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5em;
+    gap: 0.25em;
+    border-radius: 10px;
+    background-color: var(--Grey-light);
+}
+
+.rating {
+    font: var(--NormalFont);
+}
+
+@media (max-width: 768px) {
+    .propertyPage {
+        flex-direction: column;
+    }
+
+    .property {
+        width: 100%;
+    }
+
+    .host {
+        width: 100%;
+    }
+}

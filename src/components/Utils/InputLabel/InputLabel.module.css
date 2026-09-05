@@ -5,14 +5,18 @@
   width: 100%;
 }
 
-.label .title {
-  font: var(--SmallFont);
+.label.area {
+  height: 100%;
 }
 
 .titleRow {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.titleRow .title {
+  font: var(--SmallFont);
 }
 
 .tooltipWrapper {
@@ -57,9 +61,13 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding: 1.2rem 1rem;
+  padding: 0.6rem;
   border: 1px solid var(--Grey-light);
   border-radius: 4px;
+}
+
+.inputWrapper.area {
+  height: 100%;
 }
 
 .inputWrapper .input {
@@ -70,8 +78,12 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   height: 1rem;
-  font: normal 400 0.7rem var(--font-inter);
+  font: var(--VerySmallFont);
   color: var(--Grey-dark);
+}
+
+.inputWrapper .input.area {
+  height: 100%;
 }
 
 /* icône native cachée uniquement pour les inputs date, le reste des types n'est pas concerné */

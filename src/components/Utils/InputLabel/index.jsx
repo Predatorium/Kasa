@@ -6,12 +6,13 @@ import Image from 'next/image';
 export default function InputLabel({ nameId, content, type, isRequired, placeholder, value, onChange, tooltip }) {
   const inputRef = useRef(null);
   const isDate = type === 'date';
-  const Tag = type === 'textarea' ? 'textarea' : 'input';
+  const isArea = type === 'textarea';
+  const Tag = isArea ? 'textarea' : 'input';
 
-  const inputProps = type === 'textarea' ? {} : { type };
+  const inputProps = isArea ? {} : { type };
 
   return (
-    <div className={styles.label}>
+    <div className={`${styles.label} ${isArea ? styles.area : ""}`}>
       <div className={styles.titleRow}>
         <label htmlFor={nameId} className={styles.title}>{content}</label>
         {tooltip && (
@@ -29,13 +30,17 @@ export default function InputLabel({ nameId, content, type, isRequired, placehol
         )}
       </div>
 
-      <div className={styles.inputWrapper}>
+      <div className={`${styles.inputWrapper} ${isArea ? styles.area : ""}`}>
         <Tag
           ref={inputRef}
           id={nameId}
           name={nameId}
           {...inputProps}
-          className={`${styles.input} ${isDate ? styles.dateInput : ''}`}
+          className={`
+            ${styles.input} 
+            ${isDate ? styles.dateInput : ''}
+            ${isArea ? styles.area : ""}
+          `}
           required={isRequired}
           placeholder={placeholder}
           defaultValue={value ?? ''}

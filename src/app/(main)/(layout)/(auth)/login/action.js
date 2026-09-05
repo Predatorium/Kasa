@@ -3,6 +3,14 @@
 import { cookies } from 'next/headers';
 import { loginAction } from '@/actions/authActions';
 
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production', // voir remarque plus bas
+  sameSite: 'strict',
+  path: '/',
+  maxAge: 60 * 60 * 24 * 7,
+};
+
 export default async function Login(prevState, formData) {
   const email = formData.get('email');
   const password = formData.get('password');
@@ -13,19 +21,15 @@ export default async function Login(prevState, formData) {
 
   try {
     const result = await loginAction({ email, password });
-    console.log(result);
-    const { token, user } = result.data;
+    const { token, user } = result;
 
-    (await cookies()).set('token', token, {
-      httpOnly: true,
-      secure: process.env.REACT_ENV === 'production',
-      sameSite: 'strict',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-    });
+    const cookieStore = await cookies();
+    cookieStore.set('token', token, COOKIE_OPTIONS);
+    cookieStore.set('userId', user.id, COOKIE_OPTIONS);
 
     return { success: true, user };
   } catch (err) {
+    console.log(err);
     return { error: 'Identifiants incorrects' };
   }
 }

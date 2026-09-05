@@ -1,0 +1,27 @@
+.imageLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+}
+
+.title {
+    font: normal 500 0.9em var(--font-inter);
+    color: var(--Black);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.4em;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+    border: 1px solid var(--Grey-light);
+    border-radius: 4px;
+    padding: 0.6rem;
+    font: var(--VerySmallFont);
+    color: var(--Grey-dark);
+}

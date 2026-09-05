@@ -1,25 +1,33 @@
 .notfound {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
-    gap: 0.5em;
-    min-height: var(--minHeightScreen);
+    gap: 2.5em;
+}
+
+.head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .title {
-    font: normal 600 2rem var(--font-inter);
+    font: normal 600 6.25rem var(--font-inter);
     color: var(--Dark-orange);
 }
 
 .content {
-    font: var(--NormalFont);
+    font: var(--SmallFont);
     color: var(--Grey-dark);
+    white-space: pre-line;
+    text-align: center;
 }
 
-.link {
-    font: normal 400 0.9rem var(--font-inter);
-    color: var(--Dark-orange);
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9em;
 }

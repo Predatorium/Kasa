@@ -1,12 +1,20 @@
 import styles from "./not-found.module.css"
-import KasaLink from "@/components/Clickable/Link";
+import { ButtonLink } from "@/components/Clickable/Button";
+import Layout from "./(main)/(layout)/layout";
 
 export default function NotFound() {
   return (
-    <div className={styles.notfound}>
-      <h1 className={styles.title}>404</h1>
-      <p className={styles.content}>Page introuvable</p>
-      <KasaLink link={"/"}>Retour</KasaLink>
-    </div>
+    <Layout>
+      <div className={styles.notfound}>
+        <div className={styles.head}>
+          <h1 className={styles.title}>404</h1>
+          <p className={styles.content}>{"Il semble que la page que vous cherchez ait pris\ndes vacances… ou n’ait jamais existé."}</p>
+        </div>
+        <div className={styles.actions}>
+          <ButtonLink link={"/"} content="Accueil" fitContainer={true} />
+          <ButtonLink link={"/"} content="Logements" fitContainer={true} />
+        </div>
+      </div>
+    </Layout>
   );
 }

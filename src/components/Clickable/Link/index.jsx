@@ -13,3 +13,15 @@ export default function KasaLink({ children, link  }) {
     </Link>
   )
 }
+
+export function KasaLinkButton({ children, onClick  }) {
+  return (
+    <button
+      type='button'
+      onClick={onClick}
+      className={styles.link}
+    >
+      {children}
+    </button>
+  )
+}

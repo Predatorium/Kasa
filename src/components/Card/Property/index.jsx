@@ -2,9 +2,28 @@ import styles from "./Property.module.css"
 import { Button } from "@/components/Clickable/Button"
 import Image from "next/image";
 import Link from "next/link";
+import { useFavorites } from "@/contexts/FavoritesContext"
+import { useAuth } from "@/contexts/AuthContext";
+import { redirect } from "next/navigation";
 
-export default function PropertyCard({property}) {
+export default function PropertyCard({ property, inFavorite }) {
     const { id, title, location, cover, price_per_night} = property;
+    const { addFavorite, removeFavorite } = useFavorites();
+    const { user } = useAuth();
+
+    const handleClickFavorite = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!user) {
+            redirect("/login");
+        }
+
+        if (inFavorite) {
+            removeFavorite(id);
+        } else {
+            addFavorite(id);
+        }
+    };
 
     return (
         <Link href={`/property/${id}`} className={styles.card}>
@@ -12,14 +31,23 @@ export default function PropertyCard({property}) {
                 <Image
                     src={cover ?? ""}
                     alt={`Couverture ${title ?? ""}`}
-                    width={355}
-                    height={376}
+                    fill style={{ objectFit: 'cover'}}
                     loading="eager"
                     className={styles.cover}
                 />
-                <div className={styles.favorite}>
-                    <Button icon="Favoris" onClick={()=>{}} disabled={true}/>
-                </div>
+                <button 
+                    type='button' 
+                    onClick={handleClickFavorite} 
+                    className={`${styles.button} ${styles.favorite} ${inFavorite ? '' : styles.notFav}`} 
+                >
+                    <Image
+                        src={`/images/Favoris${inFavorite ? "_fav" : ""}.svg`}
+                        alt="Icon Favoris"
+                        width={16}
+                        height={16}
+                        loading="eager"
+                    />
+                </button>
             </div>
             <div className={styles.infos}>
                 <div className={styles.top}>

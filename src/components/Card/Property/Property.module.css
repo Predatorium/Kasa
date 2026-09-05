@@ -16,6 +16,19 @@
     border-radius: 10px 10px 0px 0px;
 }
 
+.button {
+    padding: 0.5em;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: var(--Main-red);
+    height: 1rem;
+}
+
+.button.notFav {
+    background-color: var(--Grey-light);
+    color: var(--Grey-dark);
+}
+
 .favorite {
     position: absolute;
     right: 1em;
