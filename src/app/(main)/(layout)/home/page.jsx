@@ -3,7 +3,7 @@
 import styles from "./home.module.css"
 import { useProperties } from "@/contexts/PropertiesContext"
 import { useFavorites } from "@/contexts/FavoritesContext"
-import PropertyCard from "@/components/Card/Property"
+import PropertyCard from "@/components/Property"
 import Image from "next/image"
 import BlockText from "@/components/Utils/Blocktext"
 
@@ -26,8 +26,10 @@ export default function HomeContent() {
                         src={"/images/Home_cover.jpg"}
                         alt={"Couverture"}
                         fill style={{ objectFit: 'cover'}}
+                        sizes="(max-width: 1115px) 88vw, 458px"
                         loading="eager"
                         className={styles.cover}
+                        priority
                     />
                 </div>
             </div>

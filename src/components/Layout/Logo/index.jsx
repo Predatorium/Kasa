@@ -7,7 +7,8 @@ export function KasaLogo() {
       <Image
         src="/images/Kasa_Logo.svg"
         alt="Logo Kasa"
-        fill style={{ objectFit: 'cover'}}
+        width={113}
+        height={40}
         loading="eager"
       />
     </div>
@@ -20,7 +21,8 @@ export function Logo() {
       <Image
         src="/images/Logo.svg"
         alt="Logo Kasa"
-        fill style={{ objectFit: 'cover'}}
+        width={46}
+        height={53}
         loading="eager"
       />
     </div>

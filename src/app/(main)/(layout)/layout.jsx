@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import styles from "./layout.module.css"
 import Header from "@/components/Layout/Header"
 import Footer from "@/components/Layout/Footer"
@@ -19,9 +21,11 @@ export default async function Layout({children}) {
     return (
         <div className={styles.layout}>
             <Header/>
-            <PropertiesProvider initialProperties={initialProperties}>
-                {children}
-            </PropertiesProvider>
+            <main>
+                <PropertiesProvider initialProperties={initialProperties}>
+                    {children}
+                </PropertiesProvider>
+            </main>
             <Footer/>
         </div>
     )

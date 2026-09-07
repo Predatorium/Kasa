@@ -1,4 +1,25 @@
 .card {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+}
+
+.button {
+    padding: 0.5em;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: var(--Main-red);
+    height: 1rem;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.button.notFav {
+    background-color: var(--Grey-light);
+    color: var(--Grey-dark);
+}
+
+.link {
     display: flex;
     flex-direction: column;
     width: 22.2em;
@@ -14,19 +35,6 @@
 
 .cover {
     border-radius: 10px 10px 0px 0px;
-}
-
-.button {
-    padding: 0.5em;
-    border-radius: 10px;
-    width: fit-content;
-    background-color: var(--Main-red);
-    height: 1rem;
-}
-
-.button.notFav {
-    background-color: var(--Grey-light);
-    color: var(--Grey-dark);
 }
 
 .favorite {

@@ -1,13 +1,19 @@
+'use client'
+
 import styles from "./property.module.css"
 import { ButtonLink } from "@/components/Clickable/Button";
 import Image from "next/image";
 import Tag from "@/components/Utils/Tag";
 import Carrousel from "@/components/Utils/Carroussel";
 import Link from "next/link";
+import ModalCarroussel from "@/components/Utils/ModalCarroussel"
+import { useState } from "react";
 
 export default function PropertyContent({ property }) {
     const { title, description, location, rating_avg, host, pictures, equipments, tags } = property;
     const { id, name, picture } = host;
+    const [indexPicture, setIndexPicture] = useState(0);
+    const [open, setOpen] = useState(false);
 
     return (
         <div className={styles.page}>
@@ -25,7 +31,7 @@ export default function PropertyContent({ property }) {
             </div>
             <div className={styles.propertyPage}>
                 <div className={styles.property}>
-                    <Carrousel pictures={pictures} />
+                    <Carrousel pictures={pictures} onClick={setOpen} setIndex={setIndexPicture} />
                     <div className={styles.infos}>
                         <div className={styles.top}>
                             <div className={styles.subtop}>
@@ -76,7 +82,7 @@ export default function PropertyContent({ property }) {
                         <p className={styles.hostName}>{name}</p>
                         <div className={styles.rate}>
                             <Image
-                                src={"/images/star.svg"}
+                                src={"/images/Star.svg"}
                                 alt={"star"}
                                 width={19}
                                 height={23}
@@ -89,7 +95,9 @@ export default function PropertyContent({ property }) {
                     <ButtonLink link={"/messaging"} content="Envoyer un message" fitContainer={true} />
                 </div>
             </div>
-
+            <div className={`${styles.modal} ${open ? styles.open : ""}`}>
+                <ModalCarroussel pictures={pictures} startIndex={indexPicture} onClose={() => setOpen(false)} isOpen={open}/>
+            </div>
         </div>
     )
 }

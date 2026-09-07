@@ -1,4 +1,5 @@
 "use server";
+
 import apiRequest from "@/api/client";
 
 export async function getPropertiesAction() {

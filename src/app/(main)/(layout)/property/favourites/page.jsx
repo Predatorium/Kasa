@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useFavorites } from "@/contexts/FavoritesContext";
 import { redirect } from "next/navigation";
 import styles from "./favourites.module.css"
-import PropertyCard from "@/components/Card/Property";
+import PropertyCard from "@/components/Property";
 
 export default function Favourites() {
     const { user } = useAuth();

@@ -36,16 +36,11 @@ export default function InputLabel({ nameId, content, type, isRequired, placehol
           id={nameId}
           name={nameId}
           {...inputProps}
-          className={`
-            ${styles.input} 
-            ${isDate ? styles.dateInput : ''}
-            ${isArea ? styles.area : ""}
-          `}
+          className={`${styles.input} ${isDate ? styles.dateInput : ''} ${isArea ? styles.area : ""}`}
           required={isRequired}
           placeholder={placeholder}
           defaultValue={value ?? ''}
           onChange={onChange}
-          autoComplete={nameId}
         />
 
         {isDate && (

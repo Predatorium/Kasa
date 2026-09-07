@@ -100,3 +100,28 @@
     font: var(--VerySmallFont);
     color: var(--Grey-dark);
 }
+
+@media (max-width: 1024px) {
+    .page {
+        padding: 1em;
+    }
+
+    .greatSection {
+        padding: 0;
+        flex-direction: column;
+    }
+
+    .section {
+        width: 100%;
+        padding: 1em;
+    }
+
+    .parent {
+        width: 100%;
+        padding: 0;
+    }
+
+    .subSection {
+        padding: 1em;
+    }
+}

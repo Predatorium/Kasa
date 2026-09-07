@@ -3,7 +3,7 @@ import { getUserByIdAction } from "@/actions/usersActions"
 import AppProviders from "@/contexts/AppProvider";
 import { cookies } from "next/headers";
 
-export default async function Layout({ children }) {
+export default async function GlobalLayout({ children }) {
     let initialFavorites = null;
     let initialUser = null;
 

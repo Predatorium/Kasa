@@ -126,7 +126,7 @@ export default function Add() {
                     {Equipments.map((equip, index) => (
                         <CheckBox
                             key={index}
-                            nameId={`Equip ${index}`}
+                            nameId={`Equip-${index}`}
                             name="equipments"
                             value={equip}
                             content={equip}

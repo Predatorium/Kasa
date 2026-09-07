@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import styles from "./Carrousel.module.css";
 
-export default function Carrousel({ pictures }) {
+export default function Carrousel({ pictures, onClick, setIndex }) {
     const containerRef = useRef(null);
 
     const scroll = (direction) => {
@@ -21,12 +21,17 @@ export default function Carrousel({ pictures }) {
                     <div
                         key={index}
                         className={`${styles.picture} ${index === 0 ? styles.pictureBig : ""}`}
+                        onClick={() => {onClick(true); setIndex(index)}}
                     >
                         <Image
                             src={picture}
                             alt={"Couverture"}
                             fill
                             style={{ objectFit: "cover" }}
+                            sizes={index === 0
+                                ? "(max-width: 768px) 80vw, 45vw"
+                                : "24vw"
+                            }
                             loading="eager"
                             className={styles.pictureArt}
                         />
