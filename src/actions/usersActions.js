@@ -2,25 +2,45 @@
 
 import apiRequest from "@/api/client";
 
-// Réservé admin
+/**
+ * Récupère la liste de tous les utilisateurs.
+ * Réservé aux admins.
+ * @returns {Promise<Array<Object>>}
+ */
 export async function getUsersAction() {
   return apiRequest("GET", "/api/users");
 }
 
-// Self ou admin
+/**
+ * Récupère un utilisateur par son identifiant.
+ * Réservé à l'utilisateur lui-même ou à un admin.
+ * @param {string} id - Identifiant de l'utilisateur
+ * @returns {Promise<Object>}
+ */
 export async function getUserByIdAction(id) {
   return apiRequest("GET", `/api/users/${id}`);
 }
 
-// Réservé admin
+/**
+ * Crée un nouvel utilisateur.
+ * Réservé aux admins.
+ * @param {Object} body
+ * @param {string} body.name - Nom de l'utilisateur (requis)
+ * @param {string} [body.picture] - URL de la photo de profil
+ * @param {"owner"|"client"|"admin"} [body.role] - Rôle de l'utilisateur
+ * @returns {Promise<Object>}
+ */
 export async function createUserAction(body) {
-  // body: { name (requis), picture?, role? } — role parmi 'owner' | 'client' | 'admin'
   return apiRequest("POST", "/api/users", body);
 }
 
-// Self ou admin
+/**
+ * Met à jour un utilisateur.
+ * Réservé à l'utilisateur lui-même ou à un admin.
+ * @param {string} id - Identifiant de l'utilisateur
+ * @param {Object} body - Sous-ensemble de { name, picture, role }
+ * @returns {Promise<Object>} Échoue en 403 si `role: 'admin'` est demandé par un appelant qui n'est pas lui-même admin
+ */
 export async function updateUserAction(id, body) {
-  // body: subset de { name, picture, role }
-  // → role: 'admin' échoue en 403 si l'appelant n'est pas lui-même admin
   return apiRequest("PATCH", `/api/users/${id}`, body);
 }

@@ -3,6 +3,14 @@
 import { createPropertyAction } from '@/actions/propertiesActions';
 import { uploadImageAction } from '@/actions/uploadsActions';
 
+/**
+ * Résout l'URL finale d'une image : upload le fichier s'il est fourni,
+ * sinon retombe sur l'URL saisie manuellement.
+ * @param {File|null} file - Fichier sélectionné via l'input file (peut être vide)
+ * @param {string|null} url - URL saisie dans le champ texte
+ * @param {string} purpose - Contexte de l'upload (ex: 'property-cover', 'user-picture')
+ * @returns {Promise<string|null>} L'URL de l'image, ou `null` si ni fichier ni URL
+ */
 async function resolveImageUrl(file, url, purpose) {
   if (file && file.size > 0) {
     const uploadForm = new FormData();
@@ -14,6 +22,14 @@ async function resolveImageUrl(file, url, purpose) {
   return url || null;
 }
 
+/**
+ * Server Action (`useActionState`) de création d'un logement à partir du
+ * FormData du formulaire "Ajouter une propriété". Upload les images
+ * (cover, photos du logement, photo hôte) avant de créer le logement.
+ * @param {Object|null} prevState - État précédent renvoyé par `useActionState` (non utilisé ici)
+ * @param {FormData} formData - Données du formulaire soumis
+ * @returns {Promise<{success: true, property: Object}|{error: string}>}
+ */
 export default async function AddProperty(prevState, formData) {
   const title = formData.get('name');
   const description = formData.get('description');

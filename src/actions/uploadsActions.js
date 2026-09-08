@@ -2,13 +2,27 @@
 
 import apiRequest from "@/api/client";
 
-// Réservé rôle owner/admin — multipart/form-data, incompatible avec apiRequest
+/**
+ * Upload une image.
+ * Réservé aux rôles owner/admin. Envoie du multipart/form-data,
+ * incompatible avec le mode JSON classique de `apiRequest`.
+ * @param {FormData} formData - Contient le fichier image à uploader
+ * @returns {Promise<Object>}
+ */
 export async function uploadImageAction(formData) {
   return apiRequest("POST", "/api/uploads/image", formData);
 }
 
-// Réservé rôle owner/admin — JSON classique
+/**
+ * Supprime une ou plusieurs images.
+ * Réservé aux rôles owner/admin. Requête JSON classique.
+ * @param {Object} body
+ * @param {string[]} [body.filenames] - Liste de noms de fichiers à supprimer
+ * @param {string[]} [body.urls] - Liste d'URLs à supprimer
+ * @param {string} [body.filename] - Nom de fichier unique à supprimer
+ * @param {string} [body.url] - URL unique à supprimer
+ * @returns {Promise<Object|null>}
+ */
 export async function deleteImagesAction(body) {
-  // body: { filenames: [...] } ou { urls: [...] } ou { filename } ou { url }
   return apiRequest("DELETE", "/api/uploads/images", body);
 }

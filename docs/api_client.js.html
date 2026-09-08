@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: api/client.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: api/client.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { cookies } from "next/headers";
+import config from "@/config/config";
+
+// Ce fichier ne doit JAMAIS être importé depuis un composant/context 'use client' -
+// cookies() n'existe que côté serveur. Il ne doit être appelé que depuis @/actions ou
+// des Server Components.
+
+/**
+ * Effectue une requête vers l'API en y attachant automatiquement le token
+ * d'authentification (cookie httpOnly) s'il est présent.
+ *
+ * @param {"GET"|"POST"|"PUT"|"PATCH"|"DELETE"} method - La méthode HTTP à utiliser
+ * @param {string} path - Le chemin de l'endpoint (ajouté à l'URL de base de l'API)
+ * @param {Object|FormData|null} [body=null] - Le corps de la requête. Si c'est du
+ * FormData, il est envoyé tel quel (utile pour l'upload de fichiers) ; sinon il est
+ * sérialisé en JSON.
+ * @returns {Promise&lt;Object|null>} Les données JSON renvoyées par l'API, ou null
+ * si la réponse n'a pas de corps (ex: 204 No Content)
+ * @throws {Error} Si la réponse HTTP n'est pas OK (status hors 200-299) — l'erreur
+ * contient alors `status` (code HTTP) et `data` (corps de la réponse si disponible)
+ */
+export default async function apiRequest(method, path, body = null) {
+  const headers = {};
+
+  // Récupère le token JWT depuis le cookie httpOnly posé à la connexion
+  const token = (await cookies()).get("token")?.value;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const options = { method, headers };
+
+  if (body !== null) {
+    if (body instanceof FormData) {
+      options.body = body; // pas de Content-Type : fetch le gère seul
+    } else {
+      headers["Content-Type"] = "application/json";
+      options.body = JSON.stringify(body);
+    }
+  }
+
+  const response = await fetch(`${config.apiUrl}${path}`, options);
+
+  let data = null;
+  try {
+    data = await response.json();
+  } catch (e) {
+    // pas de body JSON (ex: 204 No Content)
+  }
+
+  if (!response.ok) {
+    // On construit une erreur enrichie (status + data) pour permettre
+    // aux appelants de gérer finement les différents cas d'échec
+    const error = new Error(data?.message || `Erreur HTTP ${response.status}`);
+    error.status = response.status;
+    error.data = data;
+    throw error;
+  }
+
+  return data;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

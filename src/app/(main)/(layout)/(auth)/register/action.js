@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { registerAction } from '@/actions/authActions';
 
+/** Options des cookies de session (token + userId) posés à l'inscription. */
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production', // voir remarque plus bas
@@ -11,6 +12,15 @@ const COOKIE_OPTIONS = {
   maxAge: 60 * 60 * 24 * 7,
 };
 
+/**
+ * Server Action (`useActionState`) d'inscription à partir du FormData du
+ * formulaire de register. Concatène prénom/nom et pose les cookies
+ * `token`/`userId` en cas de succès.
+ * @param {Object|null} prevState - État précédent renvoyé par `useActionState` (non utilisé ici)
+ * @param {FormData} formData - Données du formulaire soumis
+ * @returns {Promise<{success: true, user: Object}>}
+ * @throws {Error} Si l'un des champs requis (email, password, firstName, name) est manquant
+ */
 export default async function Register(prevState, formData) {
   const email = formData.get('email');
   const password = formData.get('password');

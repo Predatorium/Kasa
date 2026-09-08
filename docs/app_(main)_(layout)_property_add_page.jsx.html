@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(main)/(layout)/property/add/page.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(main)/(layout)/property/add/page.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use client'
+
+import { useAuth } from "@/contexts/AuthContext";
+import { redirect, useRouter } from "next/navigation";
+import styles from "./add.module.css"
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/Clickable/Button";
+import { useActionState, useState, useEffect } from "react";
+import AddProperty from "./action";
+import InputLabel from "@/components/Utils/InputLabel";
+import ImageLabel from "@/components/Utils/ImageLabel";
+import { KasaLinkButton } from "@/components/Clickable/Link";
+import CheckBox from "@/components/Utils/CheckBox";
+import Tag from "@/components/Utils/Tag";
+
+/** Liste des équipements proposés en cases à cocher dans le formulaire. */
+const Equipments = [ 
+    "Micro-Ondes", "Clic-clac", "Douche italienne", "Four", "Frigo", 
+    "Rangements", "WIFI", "Lit", "Parking", "Bouilloire", "Sèche Cheveux",
+    "SDB", "Machine à laver", "Toilettes sèches", "Cuisine équipée",
+    "Cintres", "Télévision", "Baie vitrée", "Chambre Séparée", "Hotte",
+    "Climatisation", "Baignoire", "Frigo Américain", "Vue Parc"
+]
+
+/**
+ * Page (protégée) de création d'un logement. Redirige vers `/login` si
+ * l'utilisateur n'est pas connecté. Gère un formulaire avec upload d'images
+ * multiples (cover, photos du logement, photo hôte), une liste dynamique de
+ * champs "image du logement", et des tags personnalisés en plus des
+ * équipements à cocher. Redirige vers la page du logement créé en cas de succès.
+ * @returns {JSX.Element}
+ */
+export default function Add() {
+    const { user } = useAuth();
+    if (!user) {
+        redirect("/login");
+    }
+
+    const [actionData, formAction, isPending] = useActionState(AddProperty, null);
+    const router = useRouter();
+
+    // Redirige vers la fiche du logement créé une fois l'action serveur terminée avec succès
+    useEffect(() => {
+        if (actionData?.success &amp;&amp; actionData.property?.id) {
+            router.push(`/property/${actionData.property.id}`);
+        }
+    }, [actionData, router]);
+
+    const [tags, setTags] = useState([]);
+    const [tagInput, setTagInput] = useState("");
+
+    /** Ajoute le contenu de `tagInput` à la liste des tags (si non vide et non déjà présent), puis vide le champ. */
+    const addTag = () => {
+        const trimmed = tagInput.trim();
+        if (trimmed &amp;&amp; !tags.includes(trimmed)) {
+            setTags([...tags, trimmed]);
+        }
+        setTagInput("");
+    };
+
+    /**
+     * Retire un tag de la liste par son index.
+     * @param {number} index
+     * @returns {void}
+     */
+    const removeTag = (index) => {
+        setTags(tags.filter((_, i) => i !== index));
+    };
+
+    // un id unique par champ affiché à l'écran
+    const [propertyFields, setPropertyFields] = useState([{ id: "initial" }])
+
+    /** Ajoute un nouveau champ `ImageLabel` (image du logement) au formulaire. */
+    const handleAddField = () => {
+        setPropertyFields((prev) => [...prev, { id: crypto.randomUUID() }])
+    }
+
+    return (
+        &lt;form action={formAction} className={styles.page}>
+            &lt;Link href="/" className={styles.button} >
+                &lt;Image
+                    src="/images/Back.svg"
+                    alt="Icon back"
+                    width={16}
+                    height={16}
+                    loading="eager"
+                />
+                Retour
+            &lt;/Link>
+            &lt;div className={styles.add}>
+                &lt;h1 className={styles.title}>Ajouter une propriété&lt;/h1>
+                &lt;Button type="submit" content="Ajouter"/>
+            &lt;/div>
+            
+            {actionData?.error &amp;&amp; &lt;p className={styles.error}>{actionData.error}&lt;/p>}
+
+            &lt;div className={styles.greatSection}>
+                &lt;div className={styles.section}>
+                    &lt;InputLabel type="text" nameId="name" content="Titre de la propriété" placeholder="Ex : Appartement cosy au coeur de paris" />
+                    &lt;div className={styles.area}>
+                        &lt;InputLabel type="textarea" nameId="description" content="Description" placeholder="Décrivez votre propriété en détail..." />
+                    &lt;/div>
+                    &lt;InputLabel type="text" nameId="postalCode" content="Code postal" />
+                    &lt;InputLabel type="text" nameId="localisation" content="Localisation" />
+                    &lt;InputLabel type="text" nameId="price_per_night" content="Prix pour la nuit" />
+
+                &lt;/div>
+                &lt;div className={styles.parent}>
+                    &lt;div className={styles.subSection}>
+                        &lt;ImageLabel 
+                            nameId="Cover"
+                            name="Cover"
+                            content="Image de couverture" 
+                            icon="Plus_white" 
+                        />
+                        {propertyFields.map((field) => (
+                            &lt;ImageLabel
+                                key={field.id}
+                                nameId={`propertyPicture-${field.id}`}
+                                name="propertyPicture"
+                                content="Image du logement"
+                                icon="Plus_white"
+                            />
+                        ))}
+                        &lt;KasaLinkButton onClick={handleAddField}>+Ajouter une image&lt;/KasaLinkButton>
+                    &lt;/div>
+                    &lt;div className={styles.subSection}>
+                        &lt;InputLabel type="text" nameId="hostName" content="Nom de l’hôte" />
+                        &lt;ImageLabel 
+                            nameId="hostPicture"
+                            name="hostPicture"
+                            content="Photo de profil" 
+                            icon="Plus_white" 
+                        />
+                    &lt;/div>
+                &lt;/div>
+
+            &lt;/div>
+            &lt;div className={styles.greatSection}>
+                &lt;div className={styles.section}>
+                    &lt;h2 className={styles.title2}>Équipements&lt;/h2>
+                    &lt;div className={styles.equips}>
+                    {Equipments.map((equip, index) => (
+                        &lt;CheckBox
+                            key={index}
+                            nameId={`Equip-${index}`}
+                            name="equipments"
+                            value={equip}
+                            content={equip}
+                        />
+                    ))}
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className={styles.section}>
+                    &lt;h2 className={styles.title2}>Catégories&lt;/h2>
+                    &lt;div className={styles.tagList}>
+                        {tags.map((tag, index) => (
+                            &lt;Tag key={index} text={tag} onClick={() => removeTag(index)} />
+                        ))}
+                        {tags.length === 0 &amp;&amp; &lt;p className={styles.empty}>Aucune tag ajouter&lt;/p>}
+                    &lt;/div>
+
+                    {tags.map((tag, index) => (
+                        &lt;input key={index} type="hidden" name="tags" value={tag} />
+                    ))}
+                    &lt;ImageLabel
+                        nameId="newTag"
+                        content="Ajouter une catégorie personnalisée" 
+                        placeholder="Nouveau tag" 
+                        icon="Plus_white"
+                        value={tagInput}
+                        onChange={(e) => setTagInput(e.target.value)}
+                        onClick={addTag}
+                    />
+
+                &lt;/div>
+            &lt;/div>
+
+        &lt;/form>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

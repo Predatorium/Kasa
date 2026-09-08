@@ -3,6 +3,20 @@ import { useRef } from 'react';
 import styles from './InputLabel.module.css';
 import Image from 'next/image';
 
+/**
+ * Champ de formulaire générique (input ou textarea) avec label, tooltip
+ * optionnel, et icône calendrier cliquable pour les champs de type date.
+ * @param {Object} props
+ * @param {string} props.nameId - `id`/`name` du champ
+ * @param {string} props.content - Libellé du champ
+ * @param {string} props.type - Type HTML de l'input ('date', 'textarea', 'text', etc.). `'textarea'` rend un `<textarea>` au lieu d'un `<input>`
+ * @param {boolean} props.isRequired - Rend le champ obligatoire
+ * @param {string} props.placeholder - Texte d'aide affiché dans le champ vide
+ * @param {string} props.value - Valeur initiale/contrôlée du champ
+ * @param {Function} props.onChange - Callback au changement de valeur
+ * @param {string} [props.tooltip] - Texte d'aide affiché au survol/focus de l'icône info
+ * @returns {JSX.Element}
+ */
 export default function InputLabel({ nameId, content, type, isRequired, placeholder, value, onChange, tooltip }) {
   const inputRef = useRef(null);
   const isDate = type === 'date';

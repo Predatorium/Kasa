@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(main)/(layout)/property/[id]/propertyContent.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(main)/(layout)/property/[id]/propertyContent.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use client'
+
+import styles from "./property.module.css"
+import { ButtonLink } from "@/components/Clickable/Button";
+import Image from "next/image";
+import Tag from "@/components/Utils/Tag";
+import Carrousel from "@/components/Utils/Carroussel";
+import Link from "next/link";
+import ModalCarroussel from "@/components/Utils/ModalCarroussel"
+import { useState } from "react";
+import { generatePropertySchema } from "@/services/Utils"
+
+/**
+ * Contenu de la page détail d'un logement : carrousel photos, infos
+ * (titre, localisation, description, équipements, catégories), bloc hôte,
+ * et modale carrousel plein écran. Injecte aussi les données structurées
+ * JSON-LD (SEO) via `generatePropertySchema`.
+ * @param {Object} props
+ * @param {Object} props.property - Logement complet (avec pictures/equipments/tags/host)
+ * @returns {JSX.Element}
+ */
+export default function PropertyContent({ property }) {
+    const { title, description, location, rating_avg, host, pictures, equipments, tags } = property;
+    const { id, name, picture } = host;
+    const [indexPicture, setIndexPicture] = useState(0);
+    const [open, setOpen] = useState(false);
+
+    const jsonLd = generatePropertySchema(property);
+
+    return (
+        &lt;div className={styles.page}>            
+            &lt;script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            &lt;div className={styles.back}>
+                &lt;Link href="/" className={styles.button} >
+                    &lt;Image
+                        src="/images/Back.svg"
+                        alt="Icon back"
+                        width={16}
+                        height={16}
+                        loading="eager"
+                    />
+                    Retour aux annonces
+                &lt;/Link>
+            &lt;/div>
+            &lt;div className={styles.propertyPage}>
+                &lt;div className={styles.property}>
+                    &lt;Carrousel pictures={pictures} onClick={setOpen} setIndex={setIndexPicture} />
+                    &lt;div className={styles.infos}>
+                        &lt;div className={styles.top}>
+                            &lt;div className={styles.subtop}>
+                                &lt;h1 className={styles.title}>{title}&lt;/h1>
+                                &lt;p className={styles.location}>
+                                    &lt;Image
+                                        src={"/images/Localisation.svg"}
+                                        alt="icone location"
+                                        width={16}
+                                        height={16}
+                                        loading="eager"
+                                    />
+                                    {location}
+                                &lt;/p>
+
+                            &lt;/div>
+                            &lt;p className={styles.description}>{description}&lt;/p>
+                        &lt;/div>
+                        &lt;div className={styles.equipments}>
+                            &lt;h2 className={styles.title2}>Équipements&lt;/h2>
+                            &lt;div className={styles.tags}>
+                                {equipments.map((equipment, index) => (
+                                    &lt;Tag key={index} text={equipment} fitContainer={true} />
+                                ))}
+                            &lt;/div>
+                        &lt;/div>
+                        &lt;div className={styles.categories}>
+                            &lt;h2 className={styles.title2}>Catégorie&lt;/h2>
+                            &lt;div className={styles.tags}>
+                                {tags.map((tag, index) => (
+                                    &lt;Tag key={index} text={tag} fitContainer={true} />
+                                ))}
+                            &lt;/div>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className={styles.host}>
+                    &lt;h2 className={styles.title3}>Votre hôte&lt;/h2>
+                    &lt;div className={styles.hostInfo}>
+                        &lt;Image
+                            src={picture}
+                            alt={`Picture ${name}`}
+                            width={81}
+                            height={82}
+                            loading="eager"
+                            className={styles.hostPicture}
+                        />
+                        &lt;p className={styles.hostName}>{name}&lt;/p>
+                        &lt;div className={styles.rate}>
+                            &lt;Image
+                                src={"/images/Star.svg"}
+                                alt={"star"}
+                                width={19}
+                                height={23}
+                                loading="eager"
+                            />
+                            &lt;p className={styles.rating}>{rating_avg}&lt;/p>
+                        &lt;/div>
+                    &lt;/div>
+                    &lt;ButtonLink link={"/messaging"} content="Contacter l’hôte" fitContainer={true} />
+                    &lt;ButtonLink link={"/messaging"} content="Envoyer un message" fitContainer={true} />
+                &lt;/div>
+            &lt;/div>
+            &lt;div className={`${styles.modal} ${open ? styles.open : ""}`}>
+                &lt;ModalCarroussel pictures={pictures} startIndex={indexPicture} onClose={() => setOpen(false)} isOpen={open}/>
+            &lt;/div>
+        &lt;/div>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -14,6 +14,7 @@ import { KasaLinkButton } from "@/components/Clickable/Link";
 import CheckBox from "@/components/Utils/CheckBox";
 import Tag from "@/components/Utils/Tag";
 
+/** Liste des équipements proposés en cases à cocher dans le formulaire. */
 const Equipments = [ 
     "Micro-Ondes", "Clic-clac", "Douche italienne", "Four", "Frigo", 
     "Rangements", "WIFI", "Lit", "Parking", "Bouilloire", "Sèche Cheveux",
@@ -22,6 +23,14 @@ const Equipments = [
     "Climatisation", "Baignoire", "Frigo Américain", "Vue Parc"
 ]
 
+/**
+ * Page (protégée) de création d'un logement. Redirige vers `/login` si
+ * l'utilisateur n'est pas connecté. Gère un formulaire avec upload d'images
+ * multiples (cover, photos du logement, photo hôte), une liste dynamique de
+ * champs "image du logement", et des tags personnalisés en plus des
+ * équipements à cocher. Redirige vers la page du logement créé en cas de succès.
+ * @returns {JSX.Element}
+ */
 export default function Add() {
     const { user } = useAuth();
     if (!user) {
@@ -31,6 +40,7 @@ export default function Add() {
     const [actionData, formAction, isPending] = useActionState(AddProperty, null);
     const router = useRouter();
 
+    // Redirige vers la fiche du logement créé une fois l'action serveur terminée avec succès
     useEffect(() => {
         if (actionData?.success && actionData.property?.id) {
             router.push(`/property/${actionData.property.id}`);
@@ -39,6 +49,8 @@ export default function Add() {
 
     const [tags, setTags] = useState([]);
     const [tagInput, setTagInput] = useState("");
+
+    /** Ajoute le contenu de `tagInput` à la liste des tags (si non vide et non déjà présent), puis vide le champ. */
     const addTag = () => {
         const trimmed = tagInput.trim();
         if (trimmed && !tags.includes(trimmed)) {
@@ -47,13 +59,19 @@ export default function Add() {
         setTagInput("");
     };
 
+    /**
+     * Retire un tag de la liste par son index.
+     * @param {number} index
+     * @returns {void}
+     */
     const removeTag = (index) => {
         setTags(tags.filter((_, i) => i !== index));
     };
 
     // un id unique par champ affiché à l'écran
     const [propertyFields, setPropertyFields] = useState([{ id: "initial" }])
-    
+
+    /** Ajoute un nouveau champ `ImageLabel` (image du logement) au formulaire. */
     const handleAddField = () => {
         setPropertyFields((prev) => [...prev, { id: crypto.randomUUID() }])
     }

@@ -8,15 +8,31 @@ import Carrousel from "@/components/Utils/Carroussel";
 import Link from "next/link";
 import ModalCarroussel from "@/components/Utils/ModalCarroussel"
 import { useState } from "react";
+import { generatePropertySchema } from "@/services/Utils"
 
+/**
+ * Contenu de la page détail d'un logement : carrousel photos, infos
+ * (titre, localisation, description, équipements, catégories), bloc hôte,
+ * et modale carrousel plein écran. Injecte aussi les données structurées
+ * JSON-LD (SEO) via `generatePropertySchema`.
+ * @param {Object} props
+ * @param {Object} props.property - Logement complet (avec pictures/equipments/tags/host)
+ * @returns {JSX.Element}
+ */
 export default function PropertyContent({ property }) {
     const { title, description, location, rating_avg, host, pictures, equipments, tags } = property;
     const { id, name, picture } = host;
     const [indexPicture, setIndexPicture] = useState(0);
     const [open, setOpen] = useState(false);
 
+    const jsonLd = generatePropertySchema(property);
+
     return (
-        <div className={styles.page}>
+        <div className={styles.page}>            
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <div className={styles.back}>
                 <Link href="/" className={styles.button} >
                     <Image

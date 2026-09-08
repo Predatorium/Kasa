@@ -2,6 +2,7 @@ import { getPropertyByIdAction } from "@/actions/propertiesActions"
 import PropertyContent from "./propertyContent";
 import { redirect } from "next/navigation";
 
+// Résout le logement demandé via l'id dans l'URL et redirige vers /not-found en cas de 404.
 export default async function Property({ params }) {
     const { id: propertyId } = await params;
     

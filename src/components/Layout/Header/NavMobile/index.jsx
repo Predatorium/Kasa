@@ -11,6 +11,12 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./NavMobile.module.css"
 
+/**
+ * Barre de navigation version mobile : menu plein écran (burger), liens
+ * principaux, accès favoris/messagerie et bouton connexion/déconnexion.
+ * Le menu se ferme automatiquement à chaque changement de route.
+ * @returns {JSX.Element}
+ */
 export default function NavMobile() {
     const { user, clearUser } = useAuth();
     const [openMenu, setOpenMenu] = useState(false);
@@ -22,6 +28,11 @@ export default function NavMobile() {
         }
     }, [pathname]);
 
+    /**
+     * Déconnecte l'utilisateur (suppression des cookies côté serveur + reset
+     * du contexte local) et redirige vers la page d'accueil.
+     * @returns {Promise<void>}
+     */
     const handleLogout = async () => {
         await logoutAction();
         clearUser();

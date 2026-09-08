@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Utils/InputLabel/index.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Utils/InputLabel/index.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use client';
+import { useRef } from 'react';
+import styles from './InputLabel.module.css';
+import Image from 'next/image';
+
+/**
+ * Champ de formulaire générique (input ou textarea) avec label, tooltip
+ * optionnel, et icône calendrier cliquable pour les champs de type date.
+ * @param {Object} props
+ * @param {string} props.nameId - `id`/`name` du champ
+ * @param {string} props.content - Libellé du champ
+ * @param {string} props.type - Type HTML de l'input ('date', 'textarea', 'text', etc.). `'textarea'` rend un `&lt;textarea>` au lieu d'un `&lt;input>`
+ * @param {boolean} props.isRequired - Rend le champ obligatoire
+ * @param {string} props.placeholder - Texte d'aide affiché dans le champ vide
+ * @param {string} props.value - Valeur initiale/contrôlée du champ
+ * @param {Function} props.onChange - Callback au changement de valeur
+ * @param {string} [props.tooltip] - Texte d'aide affiché au survol/focus de l'icône info
+ * @returns {JSX.Element}
+ */
+export default function InputLabel({ nameId, content, type, isRequired, placeholder, value, onChange, tooltip }) {
+  const inputRef = useRef(null);
+  const isDate = type === 'date';
+  const isArea = type === 'textarea';
+  const Tag = isArea ? 'textarea' : 'input';
+
+  const inputProps = isArea ? {} : { type };
+
+  return (
+    &lt;div className={`${styles.label} ${isArea ? styles.area : ""}`}>
+      &lt;div className={styles.titleRow}>
+        &lt;label htmlFor={nameId} className={styles.title}>{content}&lt;/label>
+        {tooltip &amp;&amp; (
+          &lt;span
+            className={styles.tooltipWrapper}
+            tabIndex={0}
+            role="button"
+            aria-describedby={`${nameId}-tooltip`}
+          >
+            &lt;span className={styles.tooltipIcon} aria-hidden="true">ⓘ&lt;/span>
+            &lt;span id={`${nameId}-tooltip`} role="tooltip" className={styles.tooltipContent}>
+              {tooltip}
+            &lt;/span>
+          &lt;/span>
+        )}
+      &lt;/div>
+
+      &lt;div className={`${styles.inputWrapper} ${isArea ? styles.area : ""}`}>
+        &lt;Tag
+          ref={inputRef}
+          id={nameId}
+          name={nameId}
+          {...inputProps}
+          className={`${styles.input} ${isDate ? styles.dateInput : ''} ${isArea ? styles.area : ""}`}
+          required={isRequired}
+          placeholder={placeholder}
+          defaultValue={value ?? ''}
+          onChange={onChange}
+        />
+
+        {isDate &amp;&amp; (
+          &lt;button
+            type="button"
+            className={styles.calendarIcon}
+            onClick={() => inputRef.current?.showPicker?.()}
+            tabIndex={-1}
+            aria-label="Ouvrir le calendrier"
+          >
+            &lt;Image
+              src={`/images/Calendar.svg`}
+              alt={`Calendar`}
+              width={12}
+              height={12}
+              loading="eager"
+            />
+          &lt;/button>
+        )}
+      &lt;/div>
+    &lt;/div>
+  );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

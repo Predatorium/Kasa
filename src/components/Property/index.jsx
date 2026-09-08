@@ -6,12 +6,31 @@ import { useAuth } from "@/contexts/AuthContext";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
+/**
+ * Carte d'aperçu d'un logement (cover, titre, localisation, prix) avec bouton favori.
+ * Redirige vers `/login` si l'utilisateur clique sur le favori sans être connecté.
+ * @param {Object} props
+ * @param {Object} props.property - Données du logement
+ * @param {string} props.property.id
+ * @param {string} props.property.title
+ * @param {string} props.property.location
+ * @param {string} props.property.cover
+ * @param {number} props.property.price_per_night
+ * @param {boolean} props.inFavorite - Indique si le logement est déjà dans les favoris de l'utilisateur
+ * @returns {JSX.Element}
+ */
 export default function PropertyCard({ property, inFavorite }) {
     const { id, title, location, cover, price_per_night} = property;
     const { addFavorite, removeFavorite } = useFavorites();
     const { user } = useAuth();
     const [favorite, setFavorite] = useState(inFavorite);
 
+    /**
+     * Ajoute ou retire le logement des favoris au clic sur l'icône.
+     * Empêche la propagation pour ne pas déclencher le lien vers la page détail.
+     * @param {React.MouseEvent} event
+     * @returns {void}
+     */
     const handleClickFavorite = (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -49,7 +68,6 @@ export default function PropertyCard({ property, inFavorite }) {
                         alt={`Couverture ${title ?? ""}`}
                         fill style={{ objectFit: 'cover'}}
                         sizes="355px"
-                        quality={65}
                         loading="eager"
                         className={styles.cover}
                     />

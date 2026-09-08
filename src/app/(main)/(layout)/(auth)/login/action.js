@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { loginAction } from '@/actions/authActions';
 
+/** Options des cookies de session (token + userId) posés à la connexion. */
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production', // voir remarque plus bas
@@ -11,6 +12,13 @@ const COOKIE_OPTIONS = {
   maxAge: 60 * 60 * 24 * 7,
 };
 
+/**
+ * Server Action (`useActionState`) de connexion à partir du FormData du
+ * formulaire de login. Pose les cookies `token`/`userId` en cas de succès.
+ * @param {Object|null} prevState - État précédent renvoyé par `useActionState` (non utilisé ici)
+ * @param {FormData} formData - Données du formulaire soumis
+ * @returns {Promise<{success: true, user: Object}|{error: string}>}
+ */
 export default async function Login(prevState, formData) {
   const email = formData.get('email');
   const password = formData.get('password');

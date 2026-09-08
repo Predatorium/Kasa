@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contexts/FavoritesContext.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contexts/FavoritesContext.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import { createContext, useContext, useState, useCallback } from "react";
+import { addFavoriteAction, removeFavoriteAction, getFavoritesForUserAction } from "@/actions/favoritesActions"
+
+const FavoritesContext = createContext(null);
+
+/**
+ * Shape "liste" (via GET /api/properties) :
+ * { id, slug, title, description, cover, location, price_per_night,
+ *   rating_avg, ratings_count, host?: { id, name, picture } }
+ *
+ * Shape "détail" (via GET /api/properties/:id) : idem + pictures[], equipments[], tags[]
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children
+ * @param {Array&lt;Object>} [props.initialFavorites] - Favoris déjà résolus côté serveur
+ * @returns {JSX.Element}
+ */
+export default function FavoritesProvider({ children, initialFavorites = [] }) {
+  const [favorites, setFavorites] = useState(initialFavorites);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  /**
+   * Récupère les favoris d'un utilisateur donné.
+   * @param {string} id - Identifiant de l'utilisateur
+   * @returns {Promise&lt;Array&lt;Object>>}
+   */
+  const fetchFavoritesByUserId = useCallback(async (id) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getFavoritesForUserAction(id);
+        return data;
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+  }, []);
+
+  /**
+   * Ajoute un logement aux favoris et met à jour l'état local.
+   * Réservé owner/admin.
+   * @param {string} id - Identifiant du logement
+   * @returns {Promise&lt;Object>} Le favori créé
+   */
+  const addFavorite = useCallback(async (id) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await addFavoriteAction(id);
+        setFavorites((prev) => [...prev, data]);
+        return data;
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+  }, []);
+
+  /**
+   * Retire un logement des favoris et met à jour l'état local.
+   * Réservé owner/admin — 404 si id inconnu, 204 sinon (pas de data).
+   * @param {string} id - Identifiant du logement
+   * @returns {Promise&lt;void>}
+   */
+  const removeFavorite = useCallback(async (id) => {
+      setLoading(true);
+      setError(null);
+      try {
+        await removeFavoriteAction(id);
+        setFavorites((prev) => prev.filter((p) => p.id !== id));
+      } catch (err) {
+        setError(err.message);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+  }, []);
+
+  const value = {
+    favorites,
+    loading,
+    error,
+    fetchFavoritesByUserId,
+    addFavorite,
+    removeFavorite,
+  };
+
+  return (
+    &lt;FavoritesContext.Provider value={value}>
+      {children}
+    &lt;/FavoritesContext.Provider>
+  );
+}
+
+/**
+ * Hook d'accès au contexte des favoris.
+ * @returns {{favorites: Array&lt;Object>, loading: boolean, error: string|null, fetchFavoritesByUserId: Function, addFavorite: Function, removeFavorite: Function}}
+ * @throws {Error} Si utilisé en dehors d'un `FavoritesProvider`
+ */
+export function useFavorites() {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error("useFavorites doit être utilisé dans un FavoritesProvider");
+  }
+  return context;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

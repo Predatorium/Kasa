@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Utils/Carroussel/index.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Utils/Carroussel/index.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import { useRef } from "react";
+import Image from "next/image";
+import styles from "./Carrousel.module.css";
+
+/**
+ * Carrousel horizontal des photos d'un logement, avec flèches de défilement
+ * (affichées seulement au-delà de 5 photos). Le clic sur une photo ouvre la modale
+ * (via `onClick`) à l'index correspondant (via `setIndex`).
+ * @param {Object} props
+ * @param {string[]} props.pictures - URLs des photos à afficher
+ * @param {function(boolean): void} props.onClick - Callback pour ouvrir/fermer la modale carrousel
+ * @param {function(number): void} props.setIndex - Définit l'index de la photo cliquée
+ * @returns {JSX.Element}
+ */
+export default function Carrousel({ pictures, onClick, setIndex }) {
+    const containerRef = useRef(null);
+
+    /**
+     * Fait défiler le carrousel horizontalement.
+     * @param {number} direction - Sens du défilement : 1 = droite, -1 = gauche
+     * @returns {void}
+     */
+    const scroll = (direction) => {
+        const container = containerRef.current;
+        if (!container) return;
+        const amount = container.clientWidth * 0.25; // largeur d'un "bloc"
+        container.scrollBy({ left: direction * amount, behavior: "smooth" });
+    };
+
+    return (
+        &lt;div className={styles.wrapper}>
+            &lt;div className={styles.caroussel} ref={containerRef}>
+                {pictures.map((picture, index) => (
+                    &lt;div
+                        key={index}
+                        className={`${styles.picture} ${index === 0 ? styles.pictureBig : ""}`}
+                        onClick={() => {onClick(true); setIndex(index)}}
+                    >
+                        &lt;Image
+                            src={picture}
+                            alt={"Couverture"}
+                            fill
+                            style={{ objectFit: "cover" }}
+                            sizes={index === 0
+                                ? "(max-width: 768px) 80vw, 45vw"
+                                : "24vw"
+                            }
+                            loading="eager"
+                            className={styles.pictureArt}
+                        />
+                    &lt;/div>
+                ))}
+            &lt;/div>
+
+            {pictures.length > 5 &amp;&amp; (
+                &lt;>
+                    &lt;button className={`${styles.arrow} ${styles.left}`} onClick={() => scroll(-1)}>
+                        ‹
+                    &lt;/button>
+                    &lt;button className={`${styles.arrow} ${styles.right}`} onClick={() => scroll(1)}>
+                        ›
+                    &lt;/button>
+                &lt;/>
+            )}
+        &lt;/div>
+    );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

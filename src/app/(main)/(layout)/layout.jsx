@@ -6,6 +6,8 @@ import Footer from "@/components/Layout/Footer"
 import PropertiesProvider from "@/contexts/PropertiesContext"
 import { getPropertiesAction } from "@/actions/propertiesActions"
 
+// Layout applicatif : Header/Footer + PropertiesProvider hydraté côté serveur
+// avec la liste des logements. force-dynamic car les données dépendent du cookie/API à chaque requête.
 export default async function Layout({children}) {
     let initialProperties = null;
 

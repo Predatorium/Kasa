@@ -9,9 +9,19 @@ import Link from "next/link";
 import styles from "./NavDesktop.module.css"
 import { redirect } from 'next/navigation';
 
+/**
+ * Barre de navigation version desktop : liens principaux, logo, accès
+ * favoris/messagerie et bouton connexion/déconnexion.
+ * @returns {JSX.Element}
+ */
 export default function NavDesktop() {
     const { user, clearUser } = useAuth();
 
+    /**
+     * Déconnecte l'utilisateur (suppression des cookies côté serveur + reset
+     * du contexte local) et redirige vers la page d'accueil.
+     * @returns {Promise<void>}
+     */
     const handleLogout = async () => {
         await logoutAction();
         clearUser();

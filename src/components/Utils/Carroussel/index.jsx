@@ -4,9 +4,24 @@ import { useRef } from "react";
 import Image from "next/image";
 import styles from "./Carrousel.module.css";
 
+/**
+ * Carrousel horizontal des photos d'un logement, avec flèches de défilement
+ * (affichées seulement au-delà de 5 photos). Le clic sur une photo ouvre la modale
+ * (via `onClick`) à l'index correspondant (via `setIndex`).
+ * @param {Object} props
+ * @param {string[]} props.pictures - URLs des photos à afficher
+ * @param {function(boolean): void} props.onClick - Callback pour ouvrir/fermer la modale carrousel
+ * @param {function(number): void} props.setIndex - Définit l'index de la photo cliquée
+ * @returns {JSX.Element}
+ */
 export default function Carrousel({ pictures, onClick, setIndex }) {
     const containerRef = useRef(null);
 
+    /**
+     * Fait défiler le carrousel horizontalement.
+     * @param {number} direction - Sens du défilement : 1 = droite, -1 = gauche
+     * @returns {void}
+     */
     const scroll = (direction) => {
         const container = containerRef.current;
         if (!container) return;

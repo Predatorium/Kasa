@@ -3,6 +3,8 @@ import { getUserByIdAction } from "@/actions/usersActions"
 import AppProviders from "@/contexts/AppProvider";
 import { cookies } from "next/headers";
 
+// Layout racine : résout l'utilisateur + ses favoris côté serveur (si cookies
+// token/userId présents) pour hydrater AppProviders sans fetch au montage client.
 export default async function GlobalLayout({ children }) {
     let initialFavorites = null;
     let initialUser = null;

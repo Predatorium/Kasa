@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contexts/PropertiesContext.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contexts/PropertiesContext.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import { createContext, useContext, useState, useCallback } from "react";
+import {
+  getPropertiesAction,
+  getPropertyByIdAction,
+  createPropertyAction,
+  updatePropertyAction,
+  deletePropertyAction,
+} from "@/actions/propertiesActions";
+
+const PropertiesContext = createContext(null);
+
+/**
+ * Shape "liste" (via GET /api/properties) :
+ * { id, slug, title, description, cover, location, price_per_night,
+ *   rating_avg, ratings_count, host?: { id, name, picture } }
+ *
+ * Shape "détail" (via GET /api/properties/:id) : idem + pictures[], equipments[], tags[]
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children
+ * @param {Array&lt;Object>} [props.initialProperties] - Logements déjà résolus côté serveur
+ * @returns {JSX.Element}
+ */
+export default function PropertiesProvider({ children, initialProperties = [] }) {
+  const [properties, setProperties] = useState(initialProperties);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  /**
+   * Récupère la liste de tous les logements et met à jour l'état local.
+   * @returns {Promise&lt;Array&lt;Object>>}
+   */
+  const fetchProperties = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data, error } = await getPropertiesAction();
+      if (error) throw new Error(error);
+      setProperties(data ?? []);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /**
+   * Récupère le détail d'un logement par son id (sans toucher à l'état local).
+   * @param {string} id - Identifiant du logement
+   * @returns {Promise&lt;Object>} Le logement, avec pictures/equipments/tags en plus des champs de la liste
+   */
+  const fetchPropertyById = useCallback(async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data, error } = await getPropertyByIdAction(id);
+      if (error) throw new Error(error);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /**
+   * Crée un logement et l'ajoute à l'état local.
+   * Réservé owner/admin.
+   * @param {Object} body
+   * @param {string} body.title - Titre du logement (requis)
+   * @param {string} [body.description]
+   * @param {string} [body.cover]
+   * @param {string} [body.location]
+   * @param {number} [body.price_per_night]
+   * @param {string} [body.host_id] - Requis si `host` n'est pas fourni
+   * @param {{name: string, picture: string}} [body.host] - Requis si `host_id` n'est pas fourni (picture optionnelle)
+   * @param {string[]} [body.pictures]
+   * @param {string[]} [body.equipments]
+   * @param {string[]} [body.tags]
+   * @returns {Promise&lt;Object>} Le logement créé (détails complets, via getPropertyDetails côté API)
+   */
+  const createProperty = useCallback(async (body) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data, error } = await createPropertyAction(body);
+      if (error) throw new Error(error);
+      setProperties((prev) => [...prev, data]);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /**
+   * Met à jour un logement et synchronise l'état local.
+   * Réservé owner/admin — au moins un champ requis (sinon 400 côté API).
+   * @param {string} id - Identifiant du logement
+   * @param {Object} body - Sous-ensemble de { title, description, cover, location, host_id, price_per_night }
+   * @returns {Promise&lt;Object>} Le logement mis à jour
+   */
+  const updateProperty = useCallback(async (id, body) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data, error } = await updatePropertyAction(id, body);
+      if (error) throw new Error(error);
+      setProperties((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...data } : p))
+      );
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /**
+   * Supprime un logement et le retire de l'état local.
+   * Réservé owner/admin — 404 si id inconnu, 204 sinon (pas de data).
+   * @param {string} id - Identifiant du logement
+   * @returns {Promise&lt;void>}
+   */
+  const deleteProperty = useCallback(async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { error } = await deletePropertyAction(id);
+      if (error) throw new Error(error);
+      setProperties((prev) => prev.filter((p) => p.id !== id));
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const value = {
+    properties,
+    loading,
+    error,
+    fetchProperties,
+    fetchPropertyById,
+    createProperty,
+    updateProperty,
+    deleteProperty,
+  };
+
+  return (
+    &lt;PropertiesContext.Provider value={value}>
+      {children}
+    &lt;/PropertiesContext.Provider>
+  );
+}
+
+/**
+ * Hook d'accès au contexte des logements.
+ * @returns {{properties: Array&lt;Object>, loading: boolean, error: string|null, fetchProperties: Function, fetchPropertyById: Function, createProperty: Function, updateProperty: Function, deleteProperty: Function}}
+ * @throws {Error} Si utilisé en dehors d'un `PropertiesProvider`
+ */
+export function useProperties() {
+  const context = useContext(PropertiesContext);
+  if (!context) {
+    throw new Error("useProperties doit être utilisé dans un PropertiesProvider");
+  }
+  return context;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

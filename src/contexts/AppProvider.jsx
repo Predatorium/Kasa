@@ -8,6 +8,12 @@ import FavoritesProvider from "@/contexts/FavoritesContext"
  * du Server Component parent (ProtectedLayout) - plus de fetch au montage ici.
  * TaskContext/CommentContext restent montés plus bas (page projet/tâche), avec le
  * même principe : initialTasks/initialComments passés par leur propre layout serveur.
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children
+ * @param {Object|null} props.initialUser - Utilisateur déjà résolu côté serveur
+ * @param {Array<Object>} props.initialFavorites - Favoris déjà résolus côté serveur
+ * @returns {JSX.Element}
  */
 export default function AppProviders({ children, initialUser, initialFavorites }) {
   return (

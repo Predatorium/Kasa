@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Layout/Header/NavDesktop/index.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Layout/Header/NavDesktop/index.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use client'
+
+import { KasaLogo } from "@/components/Layout/Logo"
+import { Button } from "@/components/Clickable/Button"
+import { logoutAction } from '@/actions/authActions';
+import { useAuth } from '@/contexts/AuthContext';
+import Image from "next/image";
+import Link from "next/link";
+import styles from "./NavDesktop.module.css"
+import { redirect } from 'next/navigation';
+
+/**
+ * Barre de navigation version desktop : liens principaux, logo, accès
+ * favoris/messagerie et bouton connexion/déconnexion.
+ * @returns {JSX.Element}
+ */
+export default function NavDesktop() {
+    const { user, clearUser } = useAuth();
+
+    /**
+     * Déconnecte l'utilisateur (suppression des cookies côté serveur + reset
+     * du contexte local) et redirige vers la page d'accueil.
+     * @returns {Promise&lt;void>}
+     */
+    const handleLogout = async () => {
+        await logoutAction();
+        clearUser();
+        redirect('/home');
+    };
+
+    return (
+        &lt;nav className={styles.nav}>
+            &lt;div className={styles.left}>
+                &lt;Link href="/home" className={styles.blackLink}>Accueil&lt;/Link>
+                &lt;Link href="/about" className={styles.blackLink}>À propos&lt;/Link>
+            &lt;/div>
+                
+            &lt;KasaLogo />
+
+            &lt;div className={styles.right}>
+                {(user?.role === "owner" || !user) &amp;&amp;
+                    &lt;Link href="/property/add" className={styles.link}>+Ajouter un logement&lt;/Link>
+                }
+                &lt;div className={styles.icons}>
+                    &lt;Link href="/property/favourites" className={styles.iconLink}>
+                        &lt;Image
+                            src="/images/Favoris_red.svg"
+                            alt="Favoris"
+                            width={16}
+                            height={16}
+                            loading="eager"
+                        />
+                    &lt;/Link>
+                    &lt;hr className={styles.separator}/>
+                    &lt;Link href="/messaging" className={styles.iconLink}>
+                        &lt;Image
+                            src="/images/Message_red.svg"
+                            alt="Messages"
+                            width={16}
+                            height={16}
+                            loading="eager"
+                        />
+                    &lt;/Link>
+                &lt;/div>
+                &lt;Button onClick={handleLogout} content={user ? "Se déconnecter" : "Se connecter"} />
+            &lt;/div>
+        &lt;/nav>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#ButtonLink">ButtonLink</a></li><li><a href="global.html#Equipments">Equipments</a></li><li><a href="global.html#KasaLinkButton">KasaLinkButton</a></li><li><a href="global.html#KasaLogo">KasaLogo</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#addFavoriteAction">addFavoriteAction</a></li><li><a href="global.html#addRatingAction">addRatingAction</a></li><li><a href="global.html#createPropertyAction">createPropertyAction</a></li><li><a href="global.html#createUserAction">createUserAction</a></li><li><a href="global.html#deleteImagesAction">deleteImagesAction</a></li><li><a href="global.html#deletePropertyAction">deletePropertyAction</a></li><li><a href="global.html#getFavoritesForUserAction">getFavoritesForUserAction</a></li><li><a href="global.html#getPropertiesAction">getPropertiesAction</a></li><li><a href="global.html#getPropertyByIdAction">getPropertyByIdAction</a></li><li><a href="global.html#getRatingsForPropertyAction">getRatingsForPropertyAction</a></li><li><a href="global.html#getUserByIdAction">getUserByIdAction</a></li><li><a href="global.html#getUsersAction">getUsersAction</a></li><li><a href="global.html#loginAction">loginAction</a></li><li><a href="global.html#logoutAction">logoutAction</a></li><li><a href="global.html#registerAction">registerAction</a></li><li><a href="global.html#removeFavoriteAction">removeFavoriteAction</a></li><li><a href="global.html#requestResetAction">requestResetAction</a></li><li><a href="global.html#resetPasswordAction">resetPasswordAction</a></li><li><a href="global.html#updatePropertyAction">updatePropertyAction</a></li><li><a href="global.html#updateUserAction">updateUserAction</a></li><li><a href="global.html#uploadImageAction">uploadImageAction</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useFavorites">useFavorites</a></li><li><a href="global.html#useProperties">useProperties</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 08 2026 14:08:06 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
