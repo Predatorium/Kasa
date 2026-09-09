@@ -2,6 +2,7 @@
 
 import { createPropertyAction } from '@/actions/propertiesActions';
 import { uploadImageAction } from '@/actions/uploadsActions';
+import config from '@/config/config';
 
 /**
  * Résout l'URL finale d'une image : upload le fichier s'il est fourni,
@@ -16,10 +17,23 @@ async function resolveImageUrl(file, url, purpose) {
     const uploadForm = new FormData();
     uploadForm.append('file', file);
     uploadForm.append('purpose', purpose);
+
     const result = await uploadImageAction(uploadForm);
-    return result.url;
+
+    return resolveUrl(result.url);
   }
-  return url || null;
+
+  return resolveUrl(url);
+}
+
+function resolveUrl(url) {
+  if (!url) return null;
+
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+
+  return `${config.apiUrl.replace(/\/$/, '')}/${url.replace(/^\//, '')}`;
 }
 
 /**
