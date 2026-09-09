@@ -4,7 +4,7 @@ export default async function sitemap() {
   const logements = await fetch(`${config.apiUrl}/api/properties`).then(res => res.json());
 
   const logementUrls = logements.map((logement) => ({
-    url: `https://kasa.example.com/logement/${logement.id}`,
+    url: `https://kasa.example.com/property/${logement.id}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.8,
