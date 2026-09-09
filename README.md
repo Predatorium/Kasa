@@ -9,6 +9,7 @@ Kasa est une application web de location de logements (type Airbnb), développé
 - [Prérequis](#prérequis)
 - [Installation](#installation)
 - [Lancement du projet](#lancement-du-projet)
+- [Tests](#tests)
 - [Structure du projet](#structure-du-projet)
 - [Authentification](#authentification)
 
@@ -26,6 +27,7 @@ Kasa est une application web de location de logements (type Airbnb), développé
 - **Next.js** (JavaScript)
 - API backend séparée (consommée via des Server Actions / fetch)
 - Authentification par cookie JWT httpOnly
+- Tests unitaires avec **Vitest** et **Testing Library**
 
 ## Prérequis
 
@@ -52,6 +54,18 @@ L'application est ensuite accessible sur [http://localhost:3000](http://localhos
 
 > ⚠️ Le projet consomme une API backend séparée. Assure-toi que celle-ci est démarrée et accessible (voir sa configuration/URL dans les variables d'environnement du projet).
 lien de l'api https://github.com/OpenClassrooms-Student-Center/dev-react-P12.
+
+## Tests
+
+Les tests unitaires sont écrits avec [Vitest](https://vitest.dev/) et [Testing Library](https://testing-library.com/).
+
+```bash
+npm run test            # lance les tests en une fois
+npm run test:ui         # lance les tests avec l'interface graphique Vitest
+npm run test:coverage   # lance les tests avec rapport de couverture
+```
+
+Ils couvrent notamment les contextes (`AuthContext`, `FavoritesContext`), les composants critiques (carrousels, carte de logement, formulaire d'ajout) et les pages de connexion/inscription.
 
 ## Structure du projet
 

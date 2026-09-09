@@ -36,6 +36,7 @@ export default function PropertyCard({ property, inFavorite }) {
         event.stopPropagation();
         if (!user) {
             redirect("/login");
+            return;
         }
 
         if (favorite) {
@@ -64,7 +65,7 @@ export default function PropertyCard({ property, inFavorite }) {
             <Link href={`/property/${id}`} className={styles.link}>
                 <div className={styles.head}>
                     <Image
-                        src={cover ?? ""}
+                        src={cover ?? "/images/placeholder.jpg"}
                         alt={`Couverture ${title ?? ""}`}
                         fill style={{ objectFit: 'cover'}}
                         sizes="355px"
