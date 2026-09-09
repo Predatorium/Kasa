@@ -34,9 +34,14 @@ export default function NavMobile() {
      * @returns {Promise<void>}
      */
     const handleLogout = async () => {
-        await logoutAction();
-        clearUser();
-        redirect('/home');
+        if (user) {
+            await logoutAction();
+            clearUser();
+            redirect('/home');
+            return;
+        }
+
+        redirect("/login");
     };
 
     return (

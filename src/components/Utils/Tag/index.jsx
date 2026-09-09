@@ -19,7 +19,7 @@ export default function Tag({ text, onClick, fitContainer = false }){
                     onClick={onClick}
                 >
                     <Image
-                        src={"/images/close.svg"}
+                        src={"/images/Close.svg"}
                         alt={`Icon close`}
                         width={16}
                         height={16}
