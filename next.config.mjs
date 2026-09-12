@@ -21,7 +21,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'api-kasa.onrender.com',
+        hostname: 'api-kasa-1.onrender.com',
         pathname: '/uploads/**',
       },
     ],
