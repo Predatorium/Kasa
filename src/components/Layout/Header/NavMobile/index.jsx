@@ -21,6 +21,7 @@ export default function NavMobile() {
     const { user, clearUser } = useAuth();
     const [openMenu, setOpenMenu] = useState(false);
     const pathname = usePathname();
+    console.log(user);
     
     useEffect(() => {
         if (openMenu) {
@@ -72,7 +73,7 @@ export default function NavMobile() {
             }
             {openMenu &&
                 <div className={styles.actions}>
-                    {user?.role === "owner" || !user &&
+                    {(user?.role === "owner" || !user) &&
                         <ButtonLink link="/property/add" content="Ajouter un logement" />
                     }
                     <Button onClick={handleLogout} content={user ? "Se déconnecter" : "Se connecter"} />
