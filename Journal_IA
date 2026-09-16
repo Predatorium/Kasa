@@ -1,0 +1,24 @@
+JOURNAL IA - PROJET KASA
+
+Structure des pages et navigation
+
+    Développement du carrousel d'images (page de détail d'un logement).
+
+Tests unitaires
+
+    Écriture de l'intégralité des tests unitaires du projet avec Vitest.
+
+Backend et déploiement
+
+    Accompagnement sur le déploiement du site (Vercel).
+
+Debugging, optimisation et documentation
+
+    Aide au debugging et à l'optimisation du code.
+    Génération de la documentation avec JSDoc.
+
+Synthèse de l'usage de l'IA
+
+    Sur ce projet, l'assistant IA a été mobilisé comme contributeur direct au code (carrousel, intégralité des tests unitaires)
+    et comme support technique : debugging, optimisation, documentation JSDoc et déploiement.
+    Les décisions finales et la validation du code restent de la responsabilité du développeur.
