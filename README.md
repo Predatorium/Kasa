@@ -4,9 +4,6 @@ Application web de location de logements (type Airbnb), développée avec **Next
 
 **Démo** : [kasaweb-drab.vercel.app](https://kasaweb-drab.vercel.app)
 
-![Page d'accueil](docs/accueil.png)
-<!-- À ajouter : 2 ou 3 captures dans docs/ (accueil, détail d'un logement, favoris) -->
-
 ## Fonctionnalités
 
 - Page d'accueil avec la liste des logements
