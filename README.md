@@ -1,6 +1,7 @@
 # Kasa
 
 Kasa est une application web de location de logements (type Airbnb), développée avec **Next.js** dans le cadre d'un projet **OpenClassrooms**.
+Le site est héberger ici : https://kasaweb-drab.vercel.app/home.
 
 ## Sommaire
 
