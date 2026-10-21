@@ -1,103 +1,108 @@
 # Kasa
 
-Kasa est une application web de location de logements (type Airbnb), développée avec **Next.js** dans le cadre d'un projet **OpenClassrooms**.
-Le site est héberger ici : https://kasaweb-drab.vercel.app/home. le premier lancement peut etre un peu long.
+Application web de location de logements (type Airbnb), développée avec **Next.js** dans le cadre de la formation OpenClassrooms (Développeur d'application full stack).
 
-## Sommaire
+**Démo** : [kasaweb-drab.vercel.app](https://kasaweb-drab.vercel.app)
 
-- [Fonctionnalités](#fonctionnalités)
-- [Stack technique](#stack-technique)
-- [Prérequis](#prérequis)
-- [Installation](#installation)
-- [Lancement du projet](#lancement-du-projet)
-- [Tests](#tests)
-- [Structure du projet](#structure-du-projet)
-- [Authentification](#authentification)
+![Page d'accueil](docs/accueil.png)
+<!-- À ajouter : 2 ou 3 captures dans docs/ (accueil, détail d'un logement, favoris) -->
 
 ## Fonctionnalités
 
-- Page d'accueil avec liste des logements
-- Page "À propos"
-- Page détail d'un logement
-- Connexion / Inscription
+- Page d'accueil avec la liste des logements
+- Page « À propos »
+- Page de détail d'un logement avec carrousel de photos
+- Inscription et connexion
 - Ajout d'un logement
 - Gestion des favoris
 
 ## Stack technique
 
-- **Next.js** (JavaScript)
-- API backend séparée (consommée via des Server Actions / fetch)
-- Authentification par cookie JWT httpOnly
+- **Next.js 16** (App Router, Server Components, Server Actions) et **React 19**, en JavaScript
+- API backend séparée : [API_Kasa](https://github.com/Predatorium/API_Kasa) (Express + SQLite)
+- Authentification par cookie JWT `httpOnly`
 - Tests unitaires avec **Vitest** et **Testing Library**
+- Documentation du code avec **JSDoc**
+- ESLint
 
-## Prérequis
+## Lancer le projet
 
-- [Node.js](https://nodejs.org/) (version LTS recommandée)
-- npm
+Prérequis : [Node.js](https://nodejs.org/) (version LTS recommandée) et npm.
 
-## Installation
+**1. Démarrer l'API**, en suivant le README de [API_Kasa](https://github.com/Predatorium/API_Kasa) (elle écoute par défaut sur le port 8000).
 
-Cloner le dépôt puis installer les dépendances :
+**2. Démarrer le front**
 
 ```bash
-git clone <url-du-repo>
-cd kasa
+git clone https://github.com/Predatorium/Kasa.git
+cd Kasa
 npm install
+cp .env.example .env
 ```
 
-## Lancement du projet
+Dans `.env`, renseigne l'URL de l'API :
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+Puis :
 
 ```bash
 npm run dev
 ```
 
-L'application est ensuite accessible sur [http://localhost:3000](http://localhost:3000).
+L'application est accessible sur [http://localhost:3000](http://localhost:3000).
 
-> ⚠️ Le projet consomme une API backend séparée. Assure-toi que celle-ci est démarrée et accessible (voir sa configuration/URL dans les variables d'environnement du projet).
-lien de l'api https://github.com/OpenClassrooms-Student-Center/dev-react-P12.
+## Scripts
+
+| Commande | Rôle |
+|---|---|
+| `npm run dev` | Serveur de développement |
+| `npm run build` | Build de production |
+| `npm start` | Lance le build de production |
+| `npm run lint` | Analyse du code avec ESLint |
+| `npm test` | Tests Vitest en mode watch |
+| `npx vitest run` | Lance les tests une seule fois |
+| `npm run test:ui` | Tests avec l'interface graphique Vitest |
+| `npm run test:coverage` | Tests avec rapport de couverture |
+| `npm run docs` | Génère la documentation JSDoc dans `docs/` |
 
 ## Tests
 
-Les tests unitaires sont écrits avec [Vitest](https://vitest.dev/) et [Testing Library](https://testing-library.com/).
-
-```bash
-npm run test            # lance les tests en une fois
-npm run test:ui         # lance les tests avec l'interface graphique Vitest
-npm run test:coverage   # lance les tests avec rapport de couverture
-```
-
-Ils couvrent notamment les contextes (`AuthContext`, `FavoritesContext`), les composants critiques (carrousels, carte de logement, formulaire d'ajout) et les pages de connexion/inscription.
-
-## Structure du projet
-
-Le projet s'articule autour des pages suivantes :
-
-- `Home` – liste des logements
-- `About` – présentation
-- `Logement` – détail d'un logement
-- `Login` – connexion
-- `Register` – inscription
-- `Ajouter un logement`
-- `Favoris`
-
-Toutes les pages partagent un layout global, à l'exception de la messagerie qui possède son propre affichage responsive.
-
-Un proxy (`proxy.js`) gère les redirections et l'accès aux routes :
-- `/` redirige vers `/home`
-- Les routes `/home`, `/about`, `/register` et `/login` sont accessibles sans authentification
+Les tests couvrent notamment les contextes (`AuthContext`, `FavoritesContext`), les composants principaux (carrousels, carte de logement, formulaire d'ajout) et les pages de connexion et d'inscription.
 
 ## Authentification
 
-L'authentification repose sur un cookie JWT httpOnly posé côté serveur lors du login.
+- À la connexion, une Server Action appelle l'API puis pose un cookie JWT `httpOnly` côté serveur : le token n'est jamais accessible au JavaScript du navigateur.
+- Un `AuthContext` expose l'utilisateur courant via `useAuth()` (`user`, `loading`, `error`, `refreshProfile`, `editProfile`, `clearUser`).
+- Les actions `login` et `register` renvoient `{ success, user }` ; c'est le composant client (`useActionState`) qui met à jour le contexte puis redirige.
+- Un proxy (`proxy.js`) gère les redirections : `/` renvoie vers `/home`, et seules `/home`, `/about`, `/login` et `/register` sont accessibles sans être connecté.
 
-Le contexte d'authentification (`AuthContext`) expose via `useAuth()` :
-- `user`
-- `loading`
-- `error`
-- `refreshProfile`
-- `editProfile`
-- `clearUser`
+## Pages
 
-Le `AuthProvider` reçoit un `initialUser` résolu côté Server Component (`getUserByIdAction`).
+| Route | Page |
+|---|---|
+| `/home` | Liste des logements |
+| `/about` | Présentation |
+| `/property/[id]` | Détail d'un logement |
+| `/login`, `/register` | Connexion et inscription |
+| `/property/add` | Ajout d'un logement |
+| `/property/favourites` | Favoris |
 
-Les actions `login` et `register` renvoient `{ success, user }` (pas de redirection serveur) : c'est le composant client, via `useActionState`, qui met à jour le contexte (`setUser`) puis effectue la redirection côté client (`router.push`).
+## Choix et apprentissages
+
+- Server Components pour charger les données, Server Actions pour les appels à l'API.
+- Cookie `httpOnly` plutôt que `localStorage`, pour limiter l'exposition du token.
+- Organisation des composants en dossiers avec un fichier `index.jsx`.
+- Un journal des échanges avec l'IA utilisée pendant le projet est disponible dans le fichier [`Journal_IA`](Journal_IA).
+
+> [À compléter : une ou deux phrases sur ce que tu as trouvé le plus difficile ou le plus formateur sur ce projet.]
+
+## Compte de test
+
+> [À compléter : e-mail et mot de passe d'un compte de démonstration. Crée un compte jetable avec de fausses données.]
+
+## Auteur
+
+Laurent Canonge · [GitHub](https://github.com/Predatorium) · [LinkedIn à ajouter]
