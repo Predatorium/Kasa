@@ -97,11 +97,7 @@ Les tests couvrent notamment les contextes (`AuthContext`, `FavoritesContext`), 
 - Organisation des composants en dossiers avec un fichier `index.jsx`.
 - Un journal des échanges avec l'IA utilisée pendant le projet est disponible dans le fichier [`Journal_IA`](Journal_IA).
 
-> [À compléter : une ou deux phrases sur ce que tu as trouvé le plus difficile ou le plus formateur sur ce projet.]
-
-## Compte de test
-
-> [À compléter : e-mail et mot de passe d'un compte de démonstration. Crée un compte jetable avec de fausses données.]
+Sur ce projet j'ai appris à mettre en ligne un site, à rediger des tests sur les systeme critique de mon application.
 
 ## Auteur
 
